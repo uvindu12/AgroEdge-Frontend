@@ -1,13 +1,13 @@
 import React from 'react'
 import Navbar from './components/ReuseableComponents/Navbar'
-import Hero from './components/ReuseableComponents/Hero'
-import CardHoverEffectDemo from './test'
+import CardHoverEffectDemo from './cards'
+import HeroParallaxDemo from './Hero'
 
 function App() {
   return (
     <>
       <Navbar />
-      <Hero/>
+      <HeroParallaxDemo/>
       <CardHoverEffectDemo/>
     </>   
   )
