@@ -46,7 +46,7 @@ export const HoverEffect = ({ items, className }) => {
 export const Card = ({ className, children }) => {
   return (
     <div
-      className={`rounded-2xl h-full w-full p-4 overflow-hidden bg-white/50 dark:bg-slate-900/50 border border-gray-600 dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 backdrop-blur-lg transition-colors duration-300 ${className || ''}`}
+      className={`rounded-2xl h-full w-full p-4 overflow-hidden bg-white/50 dark:bg-slate-900/50 border border-gray-300 dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 backdrop-blur-lg transition-colors duration-300 ${className || ''}`}
     >
       <div className="relative z-50">
         <div className="p-4">{children}</div>
