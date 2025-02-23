@@ -15,30 +15,36 @@ export const HoverEffect = ({ items, className }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10 ${className || ''}`}>
-      {items.map((item, idx) => (
-        <a
-          href={item?.link}
-          key={item?.link || idx}
-          className="relative group block p-2 h-full w-full"
-          onMouseEnter={() => setHoveredIndex(idx)}
-          onMouseLeave={() => setHoveredIndex(null)}
-        >
-          {/* Hover Effect */}
-          <div
-            className={`absolute inset-0 h-full w-full bg-green-300 dark:bg-slate-800/50 rounded-3xl transition-opacity duration-300 ${
-              hoveredIndex === idx ? 'opacity-100' : 'opacity-0'
-            }`}
-          />
-
-          {/* Card Content */}
-          <Card>
-            <CardIcon icon={item.icon} />
-            <CardTitle>{item.title}</CardTitle>
-            <CardDescription>{item.description}</CardDescription>
-          </Card>
-        </a>
-      ))}
+    <div>
+      <h3 id="features" className="text-2xl font-bold text-center mt-24 text-black dark:text-white">
+        Why choose us
+      </h3>
+      
+      <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10 my-4 ${className || ''}`}>
+        {items.map((item, idx) => (
+          <a
+            href={item?.link}
+            key={item?.link || idx}
+            className="relative group block p-2 h-full w-full"
+            onMouseEnter={() => setHoveredIndex(idx)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            {/* Hover Effect */}
+            <div
+              className={`absolute inset-0 h-full w-full bg-green-300 dark:bg-slate-800/50 rounded-3xl transition-opacity duration-300 ${
+                hoveredIndex === idx ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
+            
+            {/* Card Content */}
+            <Card>
+              <CardIcon icon={item.icon} />
+              <CardTitle>{item.title}</CardTitle>
+              <CardDescription>{item.description}</CardDescription>
+            </Card>
+          </a>
+        ))}
+      </div>
     </div>
   );
 };

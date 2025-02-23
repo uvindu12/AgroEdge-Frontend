@@ -10,11 +10,11 @@ export default function Footer() {
 
 
             <div class="flex flex-wrap justify-center gap-4 mt-10">
-                <p class="w-24 h-6 bg-gray-200 rounded-lg dark:bg-gray-700"> Home</p>
-                <p class="w-24 h-2 bg-gray-200 rounded-lg dark:bg-gray-700">Features</p>
-                <p class="w-24 h-2 bg-gray-200 rounded-lg dark:bg-gray-700">About Us</p>
-                <p class="w-24 h-2 bg-gray-200 rounded-lg dark:bg-gray-700">Contact</p>
-                <p class="w-24 h-2 bg-gray-200 rounded-lg dark:bg-gray-700">Team</p>
+            <a href="#home"> Home </a>
+              <a href="#features"> Features </a>
+              <a href="#mission"> About Us </a>
+              <a href="#contact"> Contact </a>
+              <a href="#team"> Team </a>
             </div>
 
         </div>
@@ -31,18 +31,18 @@ export default function Footer() {
                 alt="Instagram logo"
               />
             </a>
-            <a href="https://www.instagram.com/agro_edge_?igsh=MTV0eGZqbXcxbGtqcA%3D%3D&utm_source=qr">
+            <a href="https://www.linkedin.com/in/agro-edge-0630aa342?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app">
               <img
                 className="h-7 w-7"
                 src="src/images/inkedin_logo.svg"
-                alt="Instagram logo"
+                alt="LinkedIn logo"
               />
             </a>
             <a href="https://www.instagram.com/agro_edge_?igsh=MTV0eGZqbXcxbGtqcA%3D%3D&utm_source=qr">
               <img
                 className="h-7 w-7"
                 src="src/images/facebook_logo.svg"
-                alt="Instagram logo"
+                alt="Facebook logo"
               />
             </a>
             </div>

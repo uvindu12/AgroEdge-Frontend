@@ -1,16 +1,14 @@
 "use client";
 
-import { Sparkles } from "lucide-react";
 import { GlowingEffect } from "./components/ui/glowing-effect";
 
 export default function GlowingEffectDemoSecond() {
   return (
     // Added container div with centering classes
-    <div id="mission"className="h-96 w-full flex items-center justify-center">
+    <div id="mission"className="h-96 w-full flex items-center mb-20 justify-center">
       
         <GridItem
           area="md:[grid-area:2/7/3/13] xl:[grid-area:1/8/2/13]"
-          //icon={<Sparkles className="h-4 w-4 text-black dark:text-neutral-400" />}
           title="Our Mission"
           description="Our mission in AgroEdge is to enable farmers through the means of innovation, data synthesis, and steady supportive materials which aim to maximise overall output and profitability. We aim to achieve smart farming for a sustainable future through presenting the resources yielded insights and an interconnected farming system. We plan to develop more sustainable, profitable knowledge-based farming industry through insights, sharing, and connecting global farmers."
         />
@@ -22,7 +20,7 @@ export default function GlowingEffectDemoSecond() {
 const GridItem = ({ area, icon, title, description }) => {
   return (
     <li className={`min-h-[14rem] list-none ${area}`}>
-      <div className="relative h-full rounded-2.5xl border p-2 md:rounded-3xl md:p-3">
+      <div className="relative h-full rounded-2.5xl border p-2  md:rounded-3xl md:p-3">
         <GlowingEffect
           blur={0}
           borderWidth={3}

@@ -3,10 +3,10 @@ import Navbar from './components/ReuseableComponents/Navbar'
 import Footer from './components/ReuseableComponents/Footer'
 import CardHoverEffectDemo from './cards'
 import HeroParallaxDemo from './hero'
-import GlowingEffect from './aboutus'
 import GlowingEffectDemoSecond from './aboutus'
-import SignupFormDemo from './contact'
+import GlowingEffectDemoSecondsec from './contact'
 import AnimatedTooltipPreview from './team'
+
 function App() {
   return (
     <>
@@ -14,7 +14,7 @@ function App() {
       <HeroParallaxDemo/>
       <CardHoverEffectDemo/>
       <GlowingEffectDemoSecond/>
-      <SignupFormDemo/>
+      <GlowingEffectDemoSecondsec/>
       <AnimatedTooltipPreview/>
       <Footer/>
     </>
