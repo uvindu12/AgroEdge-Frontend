@@ -2,7 +2,7 @@ import React from "react";
 
 function Navbar() {
   return (
-    <nav className="sticky top-0 z-10 w-5/6 mx-auto bg-white border-b border-gray-200 rounded-2xl backdrop-filter backdrop-blur-lg bg-opacity-30">
+    <nav className="sticky top-0 z-50 w-5/6 mx-auto bg-white border border-green-200 rounded-2xl backdrop-filter backdrop-blur-lg bg-opacity-30 mt-4">
       <div className="max-w-5xl px-4 mx-auto">
         <div className="flex items-center justify-between h-16">
           <span className="text-2xl font-semibold text-gray-900">

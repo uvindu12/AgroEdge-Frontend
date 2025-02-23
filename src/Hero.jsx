@@ -55,5 +55,35 @@ export const products = [
     thumbnail:
       "src/images/agroedgefarmerdbrd.jpeg",
   },
-  
+  {
+    title: "Farmers Dashboard",
+    thumbnail:
+      "src/images/agroedgefarmerdashbordjpeg.jpeg",
+  },
+  {
+    title: "AgroEdge",
+    thumbnail:
+      "src/images/agroedgehome.jpeg",
+  },
+  {
+    title: "AgroEdge Weather Forecasting",
+    thumbnail:
+    "src/images/agroedgeweatherforcasting.jpeg",
+      
+  },
+  {
+    title: "AgroEdge Farmer Dashboard",
+    thumbnail:
+      "src/images/agroedgefarmerdbrd.jpeg",
+  },
+  {
+    title: " AgroEdge Signup",
+    thumbnail:
+      "src/images/agroedgesignup.jpeg",
+  },
+  {
+    title: "AgroEdge Data Input",
+    thumbnail:
+      "src/images/agroedgedataget.jpeg",
+  },
 ];

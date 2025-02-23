@@ -22,6 +22,7 @@ export const HeroParallax = ({ products }) => {
 
   return (
     <div
+    id="home"
       ref={ref}
       className="h-[300vh] py-40 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
     >
@@ -49,7 +50,7 @@ export const HeroParallax = ({ products }) => {
 
 export const Header = () => {
   return (
-    <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full left-0 top-0">
+    <div className="max-w-7xl relative mx-auto py-40 md:py-40 px-4 w-full left-0 top-0">
       <h1 className="text-2xl md:text-7xl font-bold dark:text-white">
         Empowering Farmers with <br /> <span className="text-green-400"> Real-Time </span>
         Insights
