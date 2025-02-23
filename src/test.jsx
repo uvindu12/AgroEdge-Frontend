@@ -1,49 +1,74 @@
 "use client";
+import React from "react";
+import { Label } from "../src/components/ui/label";
+import { Input } from "../src/components/ui/input";
+import { cn } from "../src/lib/utils";
 
-import { Sparkles } from "lucide-react";
-import { GlowingEffect } from "../src/components/ui/glowing-effect";
-
-export default function GlowingEffectDemoSecond() {
+export default function ContactFormDemo() {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form submitted");
+  };
   return (
-    // Added container div with centering classes
-    <div className="h-96 w-full flex items-center justify-center">
-      
-        <GridItem
-          area="md:[grid-area:2/7/3/13] xl:[grid-area:1/8/2/13]"
-          //icon={<Sparkles className="h-4 w-4 text-black dark:text-neutral-400" />}
-          title="Our Mission"
-          description="Our mission in AgroEdge is to enable farmers through the means of innovation, data synthesis, and steady supportive materials which aim to maximise overall output and profitability. We aim to achieve smart farming for a sustainable future through presenting the resources yielded insights and an interconnected farming system. We plan to develop more sustainable, profitable knowledge-based farming industry through insights, sharing, and connecting global farmers."
-        />
-      
+    <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
+      <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
+        Get in Touch With Us!
+      </h2>
+      <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+        Have a question or want to collaborate? Reach out – let’s create
+        sustainable farming solutions together!
+      </p>
+      <form className="my-8" onSubmit={handleSubmit}>
+        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
+          <LabelInputContainer>
+            <Label htmlFor="firstname">First name</Label>
+            <Input id="firstname" placeholder="Tyler" type="text" />
+          </LabelInputContainer>
+          <LabelInputContainer>
+            <Label htmlFor="lastname">Last name</Label>
+            <Input id="lastname" placeholder="Durden" type="text" />
+          </LabelInputContainer>
+        </div>
+        <LabelInputContainer className="mb-4">
+          <Label htmlFor="email">Email Address</Label>
+          <Input id="email" placeholder="projectmayhem@fc.com" type="email" />
+        </LabelInputContainer>
+        <LabelInputContainer className="mb-4">
+          <Label htmlFor="message">Message</Label>
+          <textarea
+            id="message"
+            placeholder="Your message here..."
+            className="w-full p-2 border border-neutral-300 rounded-md dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200"
+          />
+        </LabelInputContainer>
+
+        <button
+          className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+          type="submit"
+        >
+          Send Message &rarr;
+          <BottomGradient />
+        </button>
+
+        <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+      </form>
     </div>
   );
 }
 
-const GridItem = ({ area, icon, title, description }) => {
+const BottomGradient = () => {
   return (
-    <li className={`min-h-[14rem] list-none ${area}`}>
-      <div className="relative h-full rounded-2.5xl border p-2 md:rounded-3xl md:p-3">
-        <GlowingEffect
-          blur={0}
-          borderWidth={3}
-          spread={80}
-          glow={true}
-          disabled={false}
-          proximity={64}
-          inactiveZone={0.01}
-        />
-        <div className="relative flex h-[300px] w-[920px] flex-col items-center justify-center gap-6 overflow-hidden rounded-xl border-0.75 p-6 dark:shadow-[0px_0px_27px_0px_#2D2D2D] md:p-6">
-  <div className="space-y-3 text-center">
-    <h3 className="pt-0.5 text-xl/[1.375rem] font-semibold font-sans -tracking-4 md:text-2xl/[1.875rem] text-black dark:text-white">
-      {title}
-    </h3>
-    <h2 className="[&_b]:md:font-semibold [&_strong]:md:font-semibold font-sans text-sm/[1.125rem] md:text-base/[1.375rem] text-gray-500 dark:text-neutral-400">
-      {description}
-    </h2>
-  </div>
-</div>
+    <>
+      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
+      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+    </>
+  );
+};
 
-      </div>
-    </li>
+const LabelInputContainer = ({ children, className }) => {
+  return (
+    <div className={cn("flex flex-col space-y-2 w-full", className)}>
+      {children}
+    </div>
   );
 };

@@ -2,8 +2,9 @@ import React from 'react'
 import Navbar from './components/ReuseableComponents/Navbar'
 import CardHoverEffectDemo from './cards'
 import HeroParallaxDemo from './Hero'
-import GlowingEffect from './test'
-import GlowingEffectDemoSecond from './test'
+import GlowingEffect from './aboutus'
+import GlowingEffectDemoSecond from './aboutus'
+import SignupFormDemo from './test'
 
 function App() {
   return (
@@ -11,8 +12,8 @@ function App() {
       <Navbar />
       <HeroParallaxDemo/>
       <CardHoverEffectDemo/>
-      
       <GlowingEffectDemoSecond/>
+      <SignupFormDemo/>
     </>   
   )
 }
