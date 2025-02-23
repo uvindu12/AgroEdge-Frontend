@@ -6,7 +6,7 @@ import { GlowingEffect } from "./components/ui/glowing-effect";
 export default function GlowingEffectDemoSecond() {
   return (
     // Added container div with centering classes
-    <div className="h-96 w-full flex items-center justify-center">
+    <div id="mission"className="h-96 w-full flex items-center justify-center">
       
         <GridItem
           area="md:[grid-area:2/7/3/13] xl:[grid-area:1/8/2/13]"

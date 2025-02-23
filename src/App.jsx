@@ -1,10 +1,11 @@
 import React from 'react'
 import Navbar from './components/ReuseableComponents/Navbar'
 import CardHoverEffectDemo from './cards'
-import HeroParallaxDemo from './Hero'
+import HeroParallaxDemo from './hero'
 import GlowingEffect from './aboutus'
 import GlowingEffectDemoSecond from './aboutus'
-import SignupFormDemo from './test'
+import SignupFormDemo from './contact'
+import AnimatedTooltipPreview from './team'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <CardHoverEffectDemo/>
       <GlowingEffectDemoSecond/>
       <SignupFormDemo/>
+      <AnimatedTooltipPreview/>
     </>   
   )
 }
