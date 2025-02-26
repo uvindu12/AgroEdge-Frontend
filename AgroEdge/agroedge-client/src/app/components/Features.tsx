@@ -1,5 +1,9 @@
 import type React from "react"
 import { Cloud, BarChart2, Users, FileText, BookOpen, Droplet } from "lucide-react"
+import Link from "next/link"
+
+
+
 
 interface FeatureCardProps {
   icon: React.ReactNode
@@ -11,9 +15,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) =
   return (
     <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <div className="flex flex-col items-center text-center">
-        <div className="p-3 bg-green-50 rounded-full mb-4">
-          <div className="text-green-600 w-8 h-8">{icon}</div>
-        </div>
+        
         <h3 className="text-xl font-semibold text-gray-800 mb-3">{title}</h3>
         <p className="text-gray-600 leading-relaxed">{description}</p>
       </div>
@@ -24,37 +26,37 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) =
 const WhyChooseUs: React.FC = () => {
   const features = [
     {
-      icon: <Cloud />,
+      icon: <Cloud className="h-12 w-12 text-blue-500" />,
       title: "Weather Analysis",
       description:
         "Plan farming activities with real-time weather updates and accurate forecasts. Get alerts for extreme weather, rainfall, and temperature changes. Prepare in advance to protect crops and reduce risks.",
     },
     {
-      icon: <BarChart2 />,
+      icon: <BarChart2 className="h-12 w-12 text-blue-500" />,
       title: "Market Insights",
       description:
         "Access AI-powered price forecasts to maximize earnings by selling at the right time. Stay updated on market trends and supply-demand shifts. Our platform provides reliable price predictions.",
     },
     {
-      icon: <Users />,
+      icon: <Users className="h-12 w-12 text-blue-500" />,
       title: "Community Hub",
       description:
         "Connect with fellow farmers to share experiences, tips, and advice. Participate in discussions on sustainable practices, pest control, and farming techniques. Build valuable networks.",
     },
     {
-      icon: <FileText />,
+      icon: <FileText className="h-12 w-12 text-blue-500"  />,
       title: "Personalized Reports",
       description:
         "Receive tailored reports based on your farm's production data. Track yield trends, soil health, and water usage. Our system offers actionable insights to optimize efficiency and improve farm management.",
     },
     {
-      icon: <BookOpen />,
+      icon: <BookOpen className="h-12 w-12 text-blue-500" />,
       title: "Learning Resources",
       description:
         "Explore expert guides and courses on sustainable farming, crop management, and advanced techniques. Stay updated on new practices to improve efficiency and productivity. Learn about organic farming.",
     },
     {
-      icon: <Droplet />,
+      icon: <Droplet className="h-12 w-12 text-blue-500" />,
       title: "Resource Optimization",
       description:
         "Optimize water and resource usage with smart farming tools. Reduce waste while improving crop yield and efficiency. Use precision farming techniques to ensure sustainable practices and reduce costs.",

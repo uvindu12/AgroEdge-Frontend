@@ -19,7 +19,7 @@ const Hero: React.FC = () => {
             resource use, and boost productivity, fostering a sustainable future for agriculture.
           </p>
           <button className="rounded-md bg-green-500 px-8 py-3 text-lg font-medium text-white hover:bg-green-400">
-            Learn More
+            Get Started
           </button>
         </div>
       </div>
