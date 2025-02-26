@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
+
 const Navbar = () => {
   return (
     <nav className="flex items-center justify-between p-4">
