@@ -1,6 +1,5 @@
 import type React from "react"
 import { Cloud, BarChart2, Users, FileText, BookOpen, Droplet } from "lucide-react"
-import Link from "next/link"
 
 
 
@@ -15,7 +14,9 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) =
   return (
     <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <div className="flex flex-col items-center text-center">
-        
+        <div className="p-3 bg-white-50 rounded-full mb-4">
+          <div className="text-blue-500 w-8 h-8">{icon}</div>
+        </div>
         <h3 className="text-xl font-semibold text-gray-800 mb-3">{title}</h3>
         <p className="text-gray-600 leading-relaxed">{description}</p>
       </div>
@@ -23,7 +24,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) =
   )
 }
 
-const WhyChooseUs: React.FC = () => {
+const Features: React.FC = () => {
   const features = [
     {
       icon: <Cloud className="h-12 w-12 text-blue-500" />,
@@ -83,5 +84,5 @@ const WhyChooseUs: React.FC = () => {
   )
 }
 
-export default WhyChooseUs
+export default Features
 
