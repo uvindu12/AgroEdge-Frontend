@@ -1,8 +1,8 @@
 import type React from "react"
-import Navbar from "./components/Navbar"
-import Hero from "./components/Hero"
-import Stats from "./components/Stats"
-import AwardGrid from "./components/AwardGrid"
+import Navbar from "./component/Navbar"
+import Hero from "./component/Hero"
+import Stats from "./component/Stats"
+import AwardGrid from "./component/AwardGrid"
 
 const App: React.FC = () => {
   return (
