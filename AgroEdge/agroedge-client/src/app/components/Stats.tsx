@@ -103,10 +103,10 @@ const Stats: React.FC = () => {
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Our Growing Impact</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-          <CounterAnimation end={50} label="Total Comments (K)" />
-          <CounterAnimation end={70} label="Total Farmers (K)" />
-          <CounterAnimation end={20} label="Total Feedback (K)" />
-          <CounterAnimation end={60} label="Total Visitors (K)" />
+          <CounterAnimation end={50} label="Total Comments " />
+          <CounterAnimation end={70} label="Total Farmers " />
+          <CounterAnimation end={20} label="Total Feedback " />
+          <CounterAnimation end={60} label="Total Visitors " />
         </div>
       </div>
     </div>

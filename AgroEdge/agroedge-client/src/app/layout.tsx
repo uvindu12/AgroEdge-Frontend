@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import Stats from "./components/Stats";
 import Features from "./components/Features";
+import Joinus from "./components/Joinus";
 
 
 
@@ -28,6 +29,7 @@ export default function RootLayout({
         <Hero></Hero>
         <Stats></Stats>
         <Features></Features>
+        <Joinus></Joinus>
         <Footer/>
       </body>
     </html>

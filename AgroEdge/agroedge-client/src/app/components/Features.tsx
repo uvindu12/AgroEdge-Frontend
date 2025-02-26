@@ -27,37 +27,37 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) =
 const Features: React.FC = () => {
   const features = [
     {
-      icon: <Cloud className="h-12 w-12 text-blue-500" />,
+      icon: <Cloud className="h-12 w-12 text-blue-400" />,
       title: "Weather Analysis",
       description:
         "Plan farming activities with real-time weather updates and accurate forecasts. Get alerts for extreme weather, rainfall, and temperature changes. Prepare in advance to protect crops and reduce risks.",
     },
     {
-      icon: <BarChart2 className="h-12 w-12 text-blue-500" />,
+      icon: <BarChart2 className="h-12 w-12 text-yellow-500" />,
       title: "Market Insights",
       description:
         "Access AI-powered price forecasts to maximize earnings by selling at the right time. Stay updated on market trends and supply-demand shifts. Our platform provides reliable price predictions.",
     },
     {
-      icon: <Users className="h-12 w-12 text-blue-500" />,
+      icon: <Users className="h-12 w-12 text-orange-500" />,
       title: "Community Hub",
       description:
         "Connect with fellow farmers to share experiences, tips, and advice. Participate in discussions on sustainable practices, pest control, and farming techniques. Build valuable networks.",
     },
     {
-      icon: <FileText className="h-12 w-12 text-blue-500"  />,
+      icon: <FileText className="h-12 w-12 text-purple-500"  />,
       title: "Personalized Reports",
       description:
         "Receive tailored reports based on your farm's production data. Track yield trends, soil health, and water usage. Our system offers actionable insights to optimize efficiency and improve farm management.",
     },
     {
-      icon: <BookOpen className="h-12 w-12 text-blue-500" />,
+      icon: <BookOpen className="h-12 w-12 text-green-500" />,
       title: "Learning Resources",
       description:
         "Explore expert guides and courses on sustainable farming, crop management, and advanced techniques. Stay updated on new practices to improve efficiency and productivity. Learn about organic farming.",
     },
     {
-      icon: <Droplet className="h-12 w-12 text-blue-500" />,
+      icon: <Droplet className="h-12 w-12 text-blue-600" />,
       title: "Resource Optimization",
       description:
         "Optimize water and resource usage with smart farming tools. Reduce waste while improving crop yield and efficiency. Use precision farming techniques to ensure sustainable practices and reduce costs.",
