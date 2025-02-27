@@ -9,6 +9,7 @@ import Joinus from "./components/Joinus";
 
 
 
+
 export const metadata: Metadata = {
   title: "AgroEdge",
   description: "Farmer Management Software",
@@ -30,6 +31,7 @@ export default function RootLayout({
         <Stats></Stats>
         <Features></Features>
         <Joinus></Joinus>
+        
         <Footer/>
       </body>
     </html>
