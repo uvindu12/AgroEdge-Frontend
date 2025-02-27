@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { Button } from "./ui/Button"
 
 
 const Navbar = () => {
@@ -30,8 +31,12 @@ const Navbar = () => {
         </div>
       </div>
       <div className="flex gap-4">
-        <button className="rounded-md bg-green-800 px-6 py-2 text-white hover:bg-green-700">Login</button>
-        <button className="rounded-md bg-green-800 px-6 py-2 text-white hover:bg-green-700">Sign Up</button>
+        <Link href="/login" passHref>
+          <Button>Login</Button>
+        </Link>
+        <Link href="/signup" passHref>
+          <Button className="bg-green-600 hover:bg-green-700 text-white">Sign Up</Button>
+        </Link>
       </div>
     </nav>
   )

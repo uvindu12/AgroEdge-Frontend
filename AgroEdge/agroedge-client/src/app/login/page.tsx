@@ -8,16 +8,15 @@ import { useRouter } from "next/navigation"
 
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { Card } from "../components/ui/Card"
 import { Label } from "../components/ui/Label"
 import { Input } from "../components/ui/Input"
-import { Card } from "../components/ui/Card"
 import { Button } from "../components/ui/Button"
 
-export default function SignUpPage() {
+export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    username: "",
   })
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -35,14 +34,6 @@ export default function SignUpPage() {
 
     if (!formData.password) {
       newErrors.password = "Password is required"
-    } else if (formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters"
-    }
-
-    if (!formData.username) {
-      newErrors.username = "Username is required"
-    } else if (!/^[a-zA-Z0-9-]+$/.test(formData.username)) {
-      newErrors.username = "Username can only contain letters, numbers, and hyphens"
     }
 
     setErrors(newErrors)
@@ -56,11 +47,11 @@ export default function SignUpPage() {
 
     setLoading(true)
     try {
-      // Here you would typically make an API call to create the user
+      // Here you would typically make an API call to authenticate the user
       await new Promise((resolve) => setTimeout(resolve, 1500)) // Simulated API call
       router.push("/dashboard")
     } catch (error) {
-      console.error("Signup error:", error)
+      console.error("Login error:", error)
     } finally {
       setLoading(false)
     }
@@ -81,10 +72,8 @@ export default function SignUpPage() {
           </div>
         </div>
         <div className="relative z-10 flex flex-col justify-center px-16 text-white">
-          <h1 className="text-4xl font-bold mb-6">Create your free account</h1>
-          <p className="text-lg text-green-100 mb-8">
-            Explore AgroEdge's core features for modern farming and agricultural management.
-          </p>
+          <h1 className="text-4xl font-bold mb-6">Welcome back to AgroEdge</h1>
+          <p className="text-lg text-green-100 mb-8">Log in to access your personalized farming insights and tools.</p>
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
@@ -92,7 +81,7 @@ export default function SignUpPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-green-100">Real-time weather and crop analysis</span>
+              <span className="text-green-100">Access real-time crop data</span>
             </div>
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
@@ -100,7 +89,7 @@ export default function SignUpPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-green-100">AI-powered market insights</span>
+              <span className="text-green-100">View personalized recommendations</span>
             </div>
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
@@ -108,7 +97,7 @@ export default function SignUpPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-green-100">Community support and resources</span>
+              <span className="text-green-100">Connect with the farming community</span>
             </div>
           </div>
         </div>
@@ -119,8 +108,8 @@ export default function SignUpPage() {
         <Card className="w-full max-w-md p-8">
           <div className="space-y-6">
             <div className="text-center">
-              <h2 className="text-2xl font-semibold">Sign up to AgroEdge</h2>
-              <p className="text-sm text-gray-600 mt-2">Start optimizing your farming operations today</p>
+              <h2 className="text-2xl font-semibold">Log in to AgroEdge</h2>
+              <p className="text-sm text-gray-600 mt-2">Enter your credentials to access your account</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -138,26 +127,12 @@ export default function SignUpPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
-                <Input
-                  id="username"
-                  type="text"
-                  placeholder="Choose a username"
-                  value={formData.username}
-                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                  className={cn(errors.username && "border-red-500")}
-                />
-                {errors.username && <p className="text-sm text-red-500">{errors.username}</p>}
-                <p className="text-xs text-gray-500">Username may only contain letters, numbers, and hyphens.</p>
-              </div>
-
-              <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Create a password"
+                    placeholder="Enter your password"
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     className={cn(errors.password && "border-red-500")}
@@ -171,39 +146,45 @@ export default function SignUpPage() {
                   </button>
                 </div>
                 {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
-                <p className="text-xs text-gray-500">Password must be at least 8 characters long.</p>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <input
+                    id="remember-me"
+                    name="remember-me"
+                    type="checkbox"
+                    className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                  />
+                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                    Remember me
+                  </label>
+                </div>
+
+                <div className="text-sm">
+                  <Link href="/forgot-password" className="font-medium text-green-600 hover:text-green-500">
+                    Forgot your password?
+                  </Link>
+                </div>
               </div>
 
               <Button type="submit" className="w-full bg-green-600 hover:bg-green-700" disabled={loading}>
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Creating account...
+                    Logging in...
                   </>
                 ) : (
-                  "Create account"
+                  "Log in"
                 )}
               </Button>
             </form>
 
             <div className="text-center text-sm">
               <p className="text-gray-600">
-                By creating an account, you agree to our{" "}
-                <Link href="/terms" className="text-green-600 hover:underline">
-                  Terms of Service
-                </Link>{" "}
-                and{" "}
-                <Link href="/privacy" className="text-green-600 hover:underline">
-                  Privacy Policy
-                </Link>
-              </p>
-            </div>
-
-            <div className="text-center text-sm">
-              <p className="text-gray-600">
-                Already have an account?{" "}
-                <Link href="/login" className="text-green-600 hover:underline font-medium">
-                  Sign in
+                Don't have an account?{" "}
+                <Link href="/signup" className="text-green-600 hover:underline font-medium">
+                  Sign up
                 </Link>
               </p>
             </div>
