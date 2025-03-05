@@ -6,6 +6,8 @@ import Hero from "./components/Hero";
 import Stats from "./components/Stats";
 import Features from "./components/Features";
 import Joinus from "./components/Joinus";
+import { ScrollBasedVelocityDemo } from "./components/Scrollbased";
+
 
 
 
@@ -29,6 +31,7 @@ export default function RootLayout({
         {children}
         </main>
         <Hero></Hero>
+        <ScrollBasedVelocityDemo></ScrollBasedVelocityDemo>
         <Stats></Stats>
         <Features></Features>
         <Joinus></Joinus>

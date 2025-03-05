@@ -22,7 +22,6 @@ const Hero: React.FC = () => {
           </Button>
         </div>
       </div>
-     
     </div>
   )
 }
