@@ -1,45 +1,50 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Button } from "./ui/Button"
+"use client";
 
+import { useState } from "react";
+import Link from "next/link";
 
 const Navbar = () => {
+  const [active, setActive] = useState("home");
+
   return (
-    <nav className="flex items-center justify-between p-4 border-b border-green-500 ">
-      <div className="flex items-center gap-12">
-        <img
-          src="/logo.png"
-          alt="AgroEdge - Keep Farmer"
-          className="h-12"
-        />
-        <div className="flex gap-8">
-          <a href="/" className="text-black hover:text-green-600">
-            Home
-          </a>
-          <a href="/contact" className="text-black hover:text-green-600">
-            Contact Us
-          </a>
-          <a href="/about" className="text-black hover:text-green-600">
-            About Us
-          </a>
-          <div className="flex items-center gap-1">
-            <a href="/menu" className="text-black hover:text-green-600">
-              Cheese Menu
-            </a>
-            
-          </div>
+    <nav className="flex items-center px-8 py-2 mx-auto  ">
+        <h1 className= "font-bold text-green-700 text-2xl">AGROEDGE</h1>
+      {/* Centered Navbar */}
+
+      <div className="flex justify-center flex-1">
+        <div className="flex gap-8 bg-green-50 shadow-lg rounded-full px-6 py-3">
+          {["home", "Features", "Contact Us", "about", "Team"].map((item) => (
+            <Link
+              key={item}
+              href={`/${item === "home" ? "" : item}`}
+              className={`relative px-5 py-2 rounded-full font-semibold transition-all ${
+                active === item
+                  ? "bg-green-200 text-black"
+                  : "text-gray-700 hover:text-black"
+              }`}
+              onClick={() => setActive(item)}
+            >
+              {item.charAt(0).toUpperCase() + item.slice(1)}
+              
+            </Link>
+          ))}
         </div>
       </div>
+      {/* Login & Sign Up Buttons */}
       <div className="flex gap-4">
         <Link href="/login" passHref>
-          <Button>Login</Button>
+          <button className="px-5 py-2 rounded-full font-medium text-green-600 border border-green-500 hover:bg-green-100 transition">
+            Login
+          </button>
         </Link>
         <Link href="/signup" passHref>
-          <Button className="bg-green-600 hover:bg-green-700 text-white">Sign Up</Button>
+          <button className="px-5 py-2 rounded-full font-medium text-white bg-green-600 hover:bg-green-700 transition">
+            Sign Up
+          </button>
         </Link>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
