@@ -32,7 +32,6 @@ export default function RootLayout({
         <Stats></Stats>
         <Features></Features>
         <Joinus></Joinus>
-        
         <Footer/>
       </body>
     </html>
