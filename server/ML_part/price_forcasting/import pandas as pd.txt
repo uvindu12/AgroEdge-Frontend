@@ -1,0 +1,124 @@
+import pandas as pd
+import numpy as np
+from scipy.stats import zscore
+
+# Load the dataset
+my_file_path = r"C:\Users\user\Desktop\iit\year2 sem1\sdgp\AgroEdge\cleaned_farmer_data.csv"
+clean_farming_data = pd.read_csv(my_file_path)
+
+# -------------------------------------------
+# Step 1: Fill Missing Data & Compute Basic Metrics
+# -------------------------------------------
+
+# Calculate the total expenses by summing up all cost-related columns
+clean_farming_data['Total Expenses (Rs.)'] = clean_farming_data[['Seed Cost (Rs.)', 'Fertilizer Cost (Rs.)',
+                                                                 'Pesticide Cost (Rs.)', 'Irrigation Cost (Rs.)',
+                                                                 'Total Labor Wages']].sum(axis=1)
+
+# Calculate the total profit by subtracting expenses from total sales revenue
+clean_farming_data['Total Profit (Rs.)'] = clean_farming_data['Total Sales Revenue (Rs.)'] - clean_farming_data['Total Expenses (Rs.)']
+
+# Ensure no missing values in the profit column
+clean_farming_data['Total Profit (Rs.)'].fillna(0, inplace=True)
+
+# -------------------------------------------
+# Step 2: Compute Performance Scores (0-100 Scale)
+# -------------------------------------------
+
+epsilon = 0.01  # Small constant shift to prevent exact 0 values
+
+# Yield Efficiency: Measures the harvested amount per land area
+clean_farming_data['Yield per Perch'] = clean_farming_data['Actual Harvest (kg)'] / clean_farming_data['Farm Size (Perches)']
+clean_farming_data['Yield Score'] = ((clean_farming_data['Yield per Perch'] - clean_farming_data['Yield per Perch'].min() + epsilon) / 
+                                    (clean_farming_data['Yield per Perch'].max() - clean_farming_data['Yield per Perch'].min() + epsilon)) * 100
+
+# Cost Efficiency: The lower the cost per kg, the higher the score
+clean_farming_data['Cost per kg'] = clean_farming_data['Total Expenses (Rs.)'] / clean_farming_data['Actual Harvest (kg)']
+clean_farming_data['Cost Efficiency Score'] = ((clean_farming_data['Cost per kg'].max() - clean_farming_data['Cost per kg'] + epsilon) / 
+                                              (clean_farming_data['Cost per kg'].max() - clean_farming_data['Cost per kg'].min() + epsilon)) * 100
+
+# Fertilizer Efficiency: Measures the amount of yield per kg of fertilizer used
+clean_farming_data['Fertilizer Efficiency'] = clean_farming_data['Actual Harvest (kg)'] / clean_farming_data['Total Fertilizer Quantity (kg)']
+clean_farming_data['Fertilizer Score'] = ((clean_farming_data['Fertilizer Efficiency'] - clean_farming_data['Fertilizer Efficiency'].min() + epsilon) / 
+                                         (clean_farming_data['Fertilizer Efficiency'].max() - clean_farming_data['Fertilizer Efficiency'].min() + epsilon)) * 100
+
+# Labor Efficiency: Measures how much yield is produced per labor hour
+clean_farming_data['Labor Efficiency'] = clean_farming_data['Actual Harvest (kg)'] / clean_farming_data['Total Number of Labor Hours']
+clean_farming_data['Labor Score'] = ((clean_farming_data['Labor Efficiency'] - clean_farming_data['Labor Efficiency'].min() + epsilon) / 
+                                    (clean_farming_data['Labor Efficiency'].max() - clean_farming_data['Labor Efficiency'].min() + epsilon)) * 100
+
+# Normalize cost per kg for different inputs (Lower cost = Higher score)
+cost_metrics = ['Fertilizer Cost per kg', 'Pesticide Cost per kg', 'Water Cost per kg', 'Seed Cost per kg', 'Labor Cost per kg']
+for metric, cost_col in zip(cost_metrics, ['Fertilizer Cost (Rs.)', 'Pesticide Cost (Rs.)', 'Irrigation Cost (Rs.)', 'Seed Cost (Rs.)', 'Total Labor Wages']):
+    clean_farming_data[metric] = clean_farming_data[cost_col] / clean_farming_data['Actual Harvest (kg)']
+    clean_farming_data[metric] = ((clean_farming_data[metric].max() - clean_farming_data[metric] + epsilon) / 
+                                 (clean_farming_data[metric].max() - clean_farming_data[metric].min() + epsilon)) * 100
+
+# Pesticide Efficiency: Measures how much yield is produced per kg of pesticide used
+clean_farming_data['Pesticide Efficiency'] = clean_farming_data['Actual Harvest (kg)'] / clean_farming_data['Total Pesticide Quantity (kg)']
+clean_farming_data['Pesticide Score'] = ((clean_farming_data['Pesticide Efficiency'] - clean_farming_data['Pesticide Efficiency'].min() + epsilon) / 
+                                        (clean_farming_data['Pesticide Efficiency'].max() - clean_farming_data['Pesticide Efficiency'].min() + epsilon)) * 100
+
+# Water Efficiency: Measures the amount of yield per liter of water used
+clean_farming_data['Water Efficiency'] = (clean_farming_data['Actual Harvest (kg)'] / clean_farming_data['Total Water Usage (liters)']) * 1000
+clean_farming_data['Water Score'] = ((clean_farming_data['Water Efficiency'] - clean_farming_data['Water Efficiency'].min() + epsilon) / 
+                                    (clean_farming_data['Water Efficiency'].max() - clean_farming_data['Water Efficiency'].min() + epsilon)) * 100
+
+# Soil Suitability Score: Measures the ideal pH level impact on farming
+clean_farming_data['Soil Suitability Score'] = 100 * np.exp(-1.5 * np.abs(clean_farming_data['Soil pH Level'] - 6.2))
+
+# Market Success: Compares the farmer's selling price with the market average
+market_avg_price = clean_farming_data['Market Selling Price (Rs./kg)'].mean()
+clean_farming_data['Market Price Score'] = (clean_farming_data['Market Selling Price (Rs./kg)'] / market_avg_price) * 100
+
+# ROI Score: Measures the return on investment
+clean_farming_data['ROI Score'] = ((clean_farming_data['Total Profit (Rs.)'] - clean_farming_data['Total Profit (Rs.)'].min() + epsilon) / 
+                                  (clean_farming_data['Total Profit (Rs.)'].max() - clean_farming_data['Total Profit (Rs.)'].min() + epsilon)) * 100
+
+# -------------------------------------------
+# Step 3: Compute Final Farmer Score
+# -------------------------------------------
+weights = {
+    'Yield Score': 20,
+    'Cost Efficiency Score': 12,
+    'Fertilizer Score': 6,
+    'Fertilizer Cost per kg': 3,
+    'Pesticide Score': 6,
+    'Pesticide Cost per kg': 3,
+    'Water Score': 6,
+    'Water Cost per kg': 3,
+    'Labor Score': 6,
+    'Labor Cost per kg': 3,
+    'Soil Suitability Score': 15,
+    'Market Price Score': 12,
+    'ROI Score': 8
+}
+
+total_weight = sum(weights.values())
+clean_farming_data['Final Farmer Score'] = clean_farming_data.apply(
+    lambda row: sum((row[col] + epsilon) * (weights[col] / total_weight) for col in weights), axis=1
+)
+
+clean_farming_data = clean_farming_data.round(2)
+clean_farming_data.to_csv(my_file_path, index=False)
+# -------------------------------------------
+# Step 4: Display Farmer's Report + Top 3 Farmers
+# -------------------------------------------
+def display_farmer_report(farm_id):
+    farmer = clean_farming_data[clean_farming_data['Farm ID'] == farm_id].iloc[0]
+    print(f"\nFarmer Performance Report for Farm ID: {farm_id}")
+    print("-" * 50)
+    for metric, weight in weights.items():
+        contribution = farmer[metric] * (weight / total_weight)
+        print(f"- {metric}: {farmer[metric]} / 100  →  ({round(contribution, 2)} Marks)")
+    print(f"\nFinal Farmer Score: {farmer['Final Farmer Score']} / 100")
+
+# Display the selected farmer report
+selected_farmer_id = 1840
+display_farmer_report(selected_farmer_id)
+
+# Display top 3 farmer reports
+print("\nTop 3 Farmers (Detailed Reports):")
+top_farmers = clean_farming_data.nlargest(3, 'Final Farmer Score')[['Farm ID', 'Final Farmer Score']]
+for i, row in top_farmers.iterrows():
+    display_farmer_report(row['Farm ID'])
