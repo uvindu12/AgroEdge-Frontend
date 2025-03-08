@@ -25,17 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar/>
-        
         <main className= "relative overflow-hidden">
         {children}
         </main>
-        <Hero></Hero>
-        <ScrollBasedVelocityDemo></ScrollBasedVelocityDemo>
-        <Stats></Stats>
-        <Features></Features>
-        <Joinus></Joinus>
-        <Footer/>
       </body>
     </html>
   );
