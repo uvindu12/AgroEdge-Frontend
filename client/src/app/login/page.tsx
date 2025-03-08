@@ -8,6 +8,8 @@ import { EyeIcon, EyeOffIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Input } from "../components/ui/Input"
 import { Button } from "../components/ui/Button"
+import { BackgroundBeams } from "../components/ui/background-beams";
+
 
 
 export default function LoginPage() {
@@ -53,12 +55,13 @@ export default function LoginPage() {
       setLoading(false)
     }
   }
+  
 
   return (
     <div className="min-h-screen flex bg-gray-50">
       {/* Left side - Form */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md space-y-8">
+        <div className="w-full max-w-lg space-y-10 ">
           {/* Logo */}
           <div className="flex justify-center">
             <div className="flex items-center space-x-2">
@@ -172,12 +175,13 @@ export default function LoginPage() {
           </form>
         </div>
       </div>
-      <div className ="hidden lg:flex lg:w-1/2 bg-white-600 ">
-        <div className="flex flex-col justify-center px-12 py-6 h-full">
-          <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/download%20%287%29-GGHcDS15UPtovdMaGMUHo4bgrCjBlA.jpeg"
-          alt="Senior farmer looking at agricultural field"
-          className="justify-center object-cover h-auto w-full rounded-3xl" />
+      <div className ="hidden lg:flex lg:w-1/2 bg-green-50 ">
+        <div className="flex flex-col justify-center px-12 text-white">
+          <div className="flex flex-col justify-center px-12 py-6 h-full">
+            <img src="/images/farmerlg.jpeg" alt="Login"  className="rounded-3xl max-w-lg max-h-screen shadow-2xl shadow-black" />
+          </div>
         </div>
+        
       </div>
     </div>
   )
