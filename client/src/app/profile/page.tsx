@@ -261,9 +261,62 @@ export default function FarmerProfilePage () {
                         </Card>
                     </div>
 
-                    
+                    <div className = "grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <Card>
+                            <CardHeader className= "">
+                                <CardTitle>Achievements</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className ="space-y-4">
+                                    {farmerData.achievements.map((achievement, index) => (
+                                        <div key={index} className ="flex items-start gap-3">
+                                            <div className = "bg-amber-100 p-2 rounded-full mt-1">
+                                                <Award className="h-4 w-4 text-amber-600"/>
+                                            </div>
+                                            <div>
+                                                <p className ="font-medium">{achievement.title}</p>
+                                                <p className = "text-sm text-gray-500">{achievement.date}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </CardContent>
+                            <CardFooter>
+                                <Button className = "w-full">
+                                    <span className ="text-green-500 hover:text-green-300">View All Achievements</span>
+                                </Button>
+                            </CardFooter>
+                        </Card>
 
+                        <Card>
+                            <CardHeader className ="">
+                                <CardTitle>Recent Activity</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className ="space-y-4">
+                                    {farmerData.recentActivity.map ((activity, index ) => (
+                                        <div key={index} className ="flex items-start gap-3">
+                                            <div className ="bg-green-100 p-2 rounded-full mt-1">
+                                                <Clock className ="h-4 w-4 text-green-600"/>
+                                            </div>
+                                            <div>
+                                                <p className ="font-medium">{activity.action}</p>
+                                                <p className ="text-sm text-gray-500">{activity.date}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </CardContent>
+                            <CardFooter>
+                                <Button className= "w-full text-green-500 hover:text-green-300">
+                                    <span>View All Activity</span>
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    </div>
                 </TabsContent>
+
+                
             </Tabs>
         </div>
     )
