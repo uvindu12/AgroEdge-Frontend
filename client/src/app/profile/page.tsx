@@ -169,10 +169,102 @@ export default function FarmerProfilePage () {
                         </div>
                     </div>
 
-                    
-
+                    <div className= "grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                        <div className= "flex items-center gap-2">
+                            <div className= "bg-blue-100 p-2 rounded-full">
+                                <Phone className= "h-4 w-4 text-blue-600"/>
+                            </div>
+                            <div>
+                                <p className = "text-sm text-gray-500">Phone</p>
+                                <p className= "font-medium">{farmerData.personal.phone}</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <div className= "bg-green-100 p-2 rounded-full">
+                                <Mail className= "h-4 w-4 text-green-600"/>
+                            </div>
+                            <div>
+                                <p className="text-sm text-gray-500">Email</p>
+                                <p className = "font-medium">{farmerData.personal.email}</p>
+                            </div>
+                        </div>
+                        <div className = "flex items-center gap-2">
+                            <div className = "bg-amber-100 p-2 rounded-full">
+                                <Calendar className = "h-4 w-4 text-amber-600"/>
+                            </div>
+                            <div>
+                                <p className = "text-sm text-gray-500">Member Since</p>
+                                <p className = "font-medium">{farmerData.personal.memberSince}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            {/* Tab section */}
+
+            <Tabs value= {activeTab} onValueChange = { setActiveTab} className= "space-y-6">
+                <TabsList className = "grid grid=cols-4 md:w - [600px]">
+                    <TabsTrigger value = "overview">Overview</TabsTrigger>
+                    <TabsTrigger value = "farm">Farm Details</TabsTrigger>
+                    <TabsTrigger value = "crops">Crops</TabsTrigger>
+                    <TabsTrigger value = "analytics">Analytics</TabsTrigger>
+                </TabsList>
+
+                {/* overview tab section */}
+
+                <TabsContent value= "overview" className= "space-y-6">
+                    <div className = "grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <Card className = "md:col-span-2">
+                            <CardHeader className = "">
+                                <CardTitle>About</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p className = "text-gray-700">{farmerData.personal.bio}</p>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader className = "">
+                                <CardTitle>Statistics</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div>
+                                    <div className = "flex justify-between mb-1 mt-5">
+                                        <span className= "text-sm text-gray-600 mb-2">Total Harvests</span>
+                                        <span className = "text-sm font-medium">{farmerData.statistics.totalHarvests}</span>
+                                    </div>
+                                    <Progress value={60} className ="h-2"/>
+                                </div>
+                                <div>
+                                    <div className = "flex justify-between mb-1 mt-5">
+                                        <span className = "text-sm text-gray-600 mb-2">Average Yield</span>
+                                        <span className = "text-sm font-medium"> {farmerData.statistics.averageYield}</span>
+                                    </div>
+                                    <Progress value={84} className= "h-2 "/>
+                                </div>
+                                <div>
+                                    <div className ="flex justify-between mb-1 mt-5">
+                                        <span className = "text-sm text-gray-600 mb-2">Profit Margin</span>
+                                        <span className = "text-sm font-medium">{farmerData.statistics.profitMargin}</span>
+                                    </div>
+                                    <Progress value={62} className= "h-2"/>
+                                </div>
+                                <div>
+                                    <div className = "flex justify-between mb-1  mt-5">
+                                        <span className= "text-sm text-gray-600 mb-2">Sustainability</span>
+                                        <span className = "text-sm font-medium">{farmerData.statistics.sustainability}</span>
+                                    </div>
+                                    <Progress value ={51} className = "h-2"/>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+
+                    
+
+                </TabsContent>
+            </Tabs>
         </div>
     )
 }
