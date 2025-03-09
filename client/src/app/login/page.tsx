@@ -181,7 +181,6 @@ export default function LoginPage() {
             <img src="/images/farmerlg.jpeg" alt="Login"  className="rounded-3xl max-w-lg max-h-screen shadow-2xl shadow-black" />
           </div>
         </div>
-        
       </div>
     </div>
   )
