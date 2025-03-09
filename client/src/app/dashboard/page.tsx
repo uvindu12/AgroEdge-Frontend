@@ -25,6 +25,7 @@ import CardHeader from "../components/ui/CardHeader"
 import CardTitle from "../components/ui/CardTitle"
 import CardContent from "../components/ui/CardContent"
 import { hover } from "framer-motion"
+import { BackgroundBeams } from "../components/ui/background-beams"
 
 export default function DashboardPage() {
   
@@ -95,7 +96,7 @@ export default function DashboardPage() {
           alt="Farmers shaking hands in field at sunset"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-black/20">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-black/70">
           <div className="container mx-auto px-4 h-full flex flex-col justify-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Welcome to <span className= "text-green-600">Agro</span><span className= "text-green-400">Edge</span></h1>
             <p className="text-xl text-gray-200 max-w-2xl">
@@ -107,12 +108,12 @@ export default function DashboardPage() {
       </div>
       <div className= " container mx-auto px-4 py-8">
         <div className= "mb-8">
-          <h2 className= " text-2xl font-semibold mb-4"><span className="text-green-400">AgroEdge</span> System Features and Tools</h2>
-          <div className= " grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <h2 className= " text-2xl font-semibold mb-4 "><span className="text-green-400">AgroEdge</span> System Features and Tools</h2>
+          <div className= " grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-5">
           {features.map((feature) => (
               <Card
                 key={feature.title}
-                className="hover:shadow-2xl transition-shadow cursor-pointer"
+                className="hover:shadow-2xl transition-shadow cursor-pointer hover:bg-green-100"
                 onClick={() => handleFeatureClick(feature.path)}
               >
                 <CardHeader className="flex flex-row items-center space-y-0 pb-2">
