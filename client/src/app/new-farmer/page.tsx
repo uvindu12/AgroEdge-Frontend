@@ -256,6 +256,38 @@ export default function NewFarmerPage (){
                         </Card>
                     </div>
                 </div>
+
+                <div className ="mb-8">
+                    <h2 className = "text-xl font-semibold mb-4">Other Recommendaed Crops</h2>
+                    <div className ="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {districtRecommendations.otherRecommendations.map ((crop) => (
+                            <Card key={crop.crop}>
+                                <CardHeader className ="pb-2">
+                                    <CardTitle className ="text-lg">{crop.crop}</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className ="space-y-3">
+                                        <div>
+                                            <div className ="flex justify-between mb-1">
+                                                <span className ="text-sm text-gray-500">Profitability</span>
+                                                <span className ="text-sm font-medium">{crop.profitability}%</span>
+                                            </div>
+                                            <Progress value = {crop.profitability} className ="h-2"/>
+                                        </div>
+                                        <div>
+                                            <div className ="flex justify-between mb-1 mt-5">
+                                                <span className ="text-sm text-gray-500">Popuparity</span>
+                                                <span className ="text-sm font-medium">{crop.popularity}%</span>
+                                            </div>
+                                            <Progress value ={crop.popularity} className ="h-2 "/>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                </div>
+                
             </div>
         </div>
     )
