@@ -105,7 +105,7 @@ export default function SignUpPage() {
       await new Promise((resolve) => setTimeout(resolve, 1500)) // Simulating API call
 
       // After successful registration, redirect to the dashboard
-      router.push("/dashboard")
+      router.push("/new-farmer")
     } catch (error) {
       console.error("Registration error:", error)
     } finally {
