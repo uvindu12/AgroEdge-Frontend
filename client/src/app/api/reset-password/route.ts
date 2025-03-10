@@ -1,52 +1,77 @@
 import { NextResponse } from "next/server"
+import { z } from "zod"
+import { randomUUID } from "crypto"
+import { PrismaClient } from "@prisma/client"
+import { sendEmail, generatePasswordResetEmail } from "@/lib/email"
 
-// This is a mock implementation. In a real application, this would:
-// 1. Validate the email exists in your database
-// 2. Generate a secure token
-// 3. Store the token with an expiration time
-// 4. Send an email with a reset link containing the token
+const prisma = new PrismaClient()
+
+// Validation schema
+const requestSchema = z.object({
+  email: z.string().email("Invalid email address"),
+})
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { email } = body
 
-    if (!email) {
-      return NextResponse.json({ error: "Email is required" }, { status: 400 })
+    // Validate request body
+    const result = requestSchema.safeParse(body)
+    if (!result.success) {
+      return NextResponse.json({ error: "Invalid request", details: result.error.format() }, { status: 400 })
     }
 
-    // In a real application, check if the email exists in your database
-    // const user = await db.user.findUnique({ where: { email } })
-    // if (!user) {
-    //   // Still return success to prevent email enumeration attacks
-    //   return NextResponse.json({ success: true })
-    // }
+    const { email } = result.data
+
+    // Find user by email
+    const user = await prisma.user.findUnique({
+      where: { email },
+    })
+
+    // Important: Don't reveal if the email exists or not to prevent enumeration attacks
+    if (!user) {
+      // Still return success to prevent email enumeration
+      return NextResponse.json({
+        success: true,
+        message: "If your email is registered, you will receive password reset instructions.",
+      })
+    }
 
     // Generate a secure token
-    const token = crypto.randomUUID()
+    const token = randomUUID()
 
-    // Store the token with an expiration time (typically 1 hour)
-    // await db.passwordReset.create({
-    //   data: {
-    //     token,
-    //     email,
-    //     expires: new Date(Date.now() + 3600000) // 1 hour from now
-    //   }
-    // })
+    // Set expiration time (1 hour from now)
+    const expiresAt = new Date()
+    expiresAt.setHours(expiresAt.getHours() + 1)
 
-    // Send an email with the reset link
-    // const resetLink = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password/${token}`
-    // await sendEmail({
-    //   to: email,
-    //   subject: "Reset your password",
-    //   text: `Click the following link to reset your password: ${resetLink}`,
-    //   html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`
-    // })
+    // Delete any existing reset tokens for this user
+    await prisma.passwordResetToken.deleteMany({
+      where: { userId: user.id },
+    })
 
-    // For demonstration purposes, we'll just return success
+    // Create a new reset token
+    await prisma.passwordResetToken.create({
+      data: {
+        token,
+        userId: user.id,
+        expiresAt,
+      },
+    })
+
+    // Generate reset link
+    const resetLink = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password/${token}`
+
+    // Generate and send email
+    const htmlContent = generatePasswordResetEmail(email, resetLink)
+    await sendEmail({
+      to: email,
+      subject: "Reset Your AgroEdge Password",
+      html: htmlContent,
+    })
+
     return NextResponse.json({
       success: true,
-      message: "If your email is registered with us, you will receive password reset instructions.",
+      message: "If your email is registered, you will receive password reset instructions.",
     })
   } catch (error) {
     console.error("Password reset request error:", error)
