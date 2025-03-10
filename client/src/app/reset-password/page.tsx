@@ -2,21 +2,22 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Lock, Eye, EyeOff, ArrowLeft, CheckCircle, Loader2, ShieldCheck } from "lucide-react"
+import { Lock, Eye, EyeOff, ArrowLeft, CheckCircle, Loader2, ShieldCheck, AlertTriangle } from "lucide-react"
 import { Card } from "../components/ui/Card"
 import CardHeader from "../components/ui/CardHeader"
 import CardTitle from "../components/ui/CardTitle"
-import { Button } from "../components/ui/Button"
 import CardDescription from "../components/ui/CardDescription"
 import CardContent from "../components/ui/CardContent"
+import { Button } from "../components/ui/Button"
+import CardFooter from "../components/ui/CardFooter"
 import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert"
 import { Label } from "../components/ui/Label"
 import { Input } from "../components/ui/Input"
 import { Progress } from "../components/ui/Progress"
-import CardFooter from "../components/ui/CardFooter"
+
 
 interface PasswordStrength {
   score: number
@@ -31,8 +32,31 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isTokenValid, setIsTokenValid] = useState(false)
   const router = useRouter()
   const token = params.token
+
+  // Verify token on page load
+  useEffect(() => {
+    const verifyToken = async () => {
+      try {
+        const response = await fetch(`/api/reset-password/verify/${token}`)
+        const data = await response.json()
+
+        setIsTokenValid(data.valid)
+        if (!data.valid) {
+          setError(data.message || "Invalid or expired token")
+        }
+      } catch (err) {
+        setError("Failed to verify token. Please try again.")
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    verifyToken()
+  }, [token])
 
   // Password strength calculation
   const calculatePasswordStrength = (password: string): PasswordStrength => {
@@ -106,22 +130,86 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
     setIsSubmitting(true)
 
     try {
-      // In a real application, this would be an API call to reset the password
-      // Example: await fetch('/api/reset-password/confirm', {
-      //   method: 'POST',
-      //   body: JSON.stringify({ token, password })
-      // })
+      const response = await fetch("/api/reset-password/confirm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token, password }),
+      })
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to reset password")
+      }
 
       // Show success state
       setIsSubmitted(true)
     } catch (err) {
-      setError("Failed to reset password. The link may have expired.")
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError("Failed to reset password. The link may have expired.")
+      }
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-50 to-white p-4 sm:p-6 lg:p-8">
+        <div className="w-full max-w-md text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto text-green-600" />
+          <p className="mt-4 text-gray-600">Verifying your reset link...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show invalid token state
+  if (!isTokenValid && !isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-50 to-white p-4 sm:p-6 lg:p-8">
+        <div className="w-full max-w-md">
+          <div className="mb-8 text-center">
+            <Link href="/" className="inline-block">
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-8 h-8 bg-green-600 rounded-lg"></div>
+                <span className="text-2xl font-semibold">AgroEdge</span>
+              </div>
+            </Link>
+          </div>
+
+          <Card className="border-none shadow-lg">
+            <CardHeader className="space-y-1">
+              <div className="flex justify-center mb-4">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                  <AlertTriangle className="h-8 w-8 text-red-600" />
+                </div>
+              </div>
+              <CardTitle className="text-2xl font-bold text-center">Invalid or Expired Link</CardTitle>
+              <CardDescription className="text-center">
+                The password reset link is invalid or has expired.
+              </CardDescription>
+            </CardHeader>
+            <CardContent >
+              <p className="mb-6 text-gray-600">Please request a new password reset link to continue.</p>
+              <Button className="bg-green-600 hover:bg-green-700" onClick={() => router.push("/forgot-password")}>
+                Request New Link
+              </Button>
+            </CardContent>
+            <CardFooter className="flex justify-center">
+              <Link href="/login" className="text-sm text-green-600 hover:underline">
+                Back to login
+              </Link>
+            </CardFooter>
+          </Card>
+        </div>
+      </div>
+    )
   }
 
   return (
