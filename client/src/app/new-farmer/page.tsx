@@ -287,7 +287,29 @@ export default function NewFarmerPage (){
                         ))}
                     </div>
                 </div>
-                
+
+                <Card className ="mb-8">
+                    <CardHeader className ="">
+                        <CardTitle className ="flex item-center">
+                            <BarChart2 className ="mr-2 h-5 w-5 "/>
+                            How We Generate Recommendations
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className ="text-gray-700 mb-4">
+                        Our recommendation system analyzes data from all farmers in your district to identify:
+                        </p>
+                        <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                            <li>The most commonly grown crops (based on acreage and number of farmers)</li>
+                            <li>The most profitable crops (based on income vs. expenses)</li>
+                            <li>Market trends and demand forecasts</li>
+                            <li>Environmental suitability for your specific location</li>
+                        </ul>
+                        <p className="text-gray-700 mt-4">
+                        These recommendations are updated quarterly to ensure you always have the most current information.
+                        </p>
+                    </CardContent>
+                </Card>
             </div>
         </div>
     )
