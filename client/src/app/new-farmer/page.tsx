@@ -272,14 +272,14 @@ export default function NewFarmerPage (){
                                                 <span className ="text-sm text-gray-500">Profitability</span>
                                                 <span className ="text-sm font-medium">{crop.profitability}%</span>
                                             </div>
-                                            <Progress value = {crop.profitability} className ="h-2"/>
+                                            <Progress value = {crop.profitability} className ="h-2 bg-green-200"/>
                                         </div>
                                         <div>
                                             <div className ="flex justify-between mb-1 mt-5">
                                                 <span className ="text-sm text-gray-500">Popuparity</span>
                                                 <span className ="text-sm font-medium">{crop.popularity}%</span>
                                             </div>
-                                            <Progress value ={crop.popularity} className ="h-2 "/>
+                                            <Progress value ={crop.popularity} className ="h-2 bg-green-200"/>
                                         </div>
                                     </div>
                                 </CardContent>
