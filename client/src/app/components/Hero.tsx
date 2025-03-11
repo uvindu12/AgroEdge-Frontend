@@ -1,5 +1,6 @@
 import type React from 'react';
 import { Button } from './ui/Button';
+import Link from 'next/link';
 
 const Hero: React.FC = () => {
   return (
@@ -17,9 +18,12 @@ const Hero: React.FC = () => {
           <p className = "mb-8 text-lg">
             AgroEdge transforms traditional farming by providing farmers with real-time data, personalized recommendations, and innovative tools, Our platform empowers farmers to make informed decisions, optimize resource use, and boost productivity, fostering a sustainable future for agriculture.
           </p>
-          <Button className = "rounded-full bg-green-500 px-8 py-3 text-lg font-medium text-white hover:text-green-500 hover:bg-green-200">
-            Get Started
-          </Button>
+          <Link href="/signup" passHref>
+            <Button className = "rounded-full bg-green-500 px-8 py-3 text-lg font-medium text-white hover:text-green-500 hover:bg-green-200">
+              Get Started
+            </Button>
+          </Link>
+          
         </div>
       </div>
     </div>
