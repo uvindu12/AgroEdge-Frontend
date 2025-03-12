@@ -11,7 +11,7 @@ const Joinus: React.FC = () => {
         <div className="text-center space-y-8">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Ready to revolutionize your farming?</h2>
           <div>
-            <Link href="/login">
+            <Link href="/signup">
               <button className="bg-green-200 hover:bg-green-300 text-green-800 text-lg px-8 py-3 h-auto rounded-full">
                 Join AgroEdge Today 
                 <BorderBeam
