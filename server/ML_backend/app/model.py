@@ -41,15 +41,16 @@ def predict_price(request: PricePredictionRequest):
 
         df_filtered = df_filtered.sort_values("Date")
 
-        # 🛠 FIX: Ensure 'Price_Scaled' column is available before use
+        # 🛠 FIX: Get the last available date from the dataset
+        last_date = df_filtered["Date"].max()  # Get last recorded date
+        future_dates = [(last_date + timedelta(weeks=i+1)).strftime("%Y-%m-%d") for i in range(12)]  # Start from last date
+
+        # Ensure 'Price_Scaled' column is available before use
         if "Price_Scaled" not in df_filtered.columns:
             return {"error": "'Price_Scaled' column is missing. Ensure price scaling is applied."}
 
         last_prices = df_filtered["Price_Scaled"].values[-12:]  # Use last 12 real values
         last_prices = last_prices.reshape((1, 12, 1))  # Ensure correct shape
-
-        # Generate future dates (next 12 weeks)
-        future_dates = [(datetime.today() + timedelta(weeks=i)).strftime("%Y-%m-%d") for i in range(12)]
 
         # Predict next 12 weeks sequentially
         predicted_prices_scaled = []
