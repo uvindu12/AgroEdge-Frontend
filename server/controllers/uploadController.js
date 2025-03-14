@@ -6,7 +6,6 @@ const IrrigationUpload = require('../models/IrrigationUpload');
 const LaborUpload = require('../models/LaborUpload');
 const MachineryUpload = require('../models/MachineryUpload');
 const DiseaseUpload = require('../models/DiseaseUpload');
-const logger = require('../loggingOperations/logger.js'); // Import logger
 
 // Check if session exists and is active
 const checkSession = async (sessionId, userId) => {
@@ -38,7 +37,6 @@ exports.addFertilizerUpload = async (req, res) => {
     // Check if session exists and is active
     const session = await checkSession(session_id, req.userId);
     if (!session) {
-      logger.warn(`Unauthorized access to session: ${session_id} by user ${req.userId}`);
       return res.status(404).json({ 
         message: 'Active session not found or you do not have permission' 
       });
@@ -56,7 +54,6 @@ exports.addFertilizerUpload = async (req, res) => {
       application_date: req.body.application_date || new Date()
     });
 
-    logger.info(`Fertilizer upload added for session: ${session_id} by user ${req.userId}`);
     res.status(201).json({
       message: 'Fertilizer application recorded successfully',
       upload
@@ -64,11 +61,9 @@ exports.addFertilizerUpload = async (req, res) => {
     
   } catch (error) {
     console.error('Add fertilizer upload error:', error);
-    logger.error(`Error adding fertilizer upload: ${error.message}`);
     res.status(500).json({ message: 'Server error recording fertilizer application' });
   }
 };
-
 
 // Add pesticide upload
 exports.addPesticideUpload = async (req, res) => {
@@ -87,7 +82,6 @@ exports.addPesticideUpload = async (req, res) => {
     // Check if session exists and is active
     const session = await checkSession(session_id, req.userId);
     if (!session) {
-      logger.warn(`Unauthorized access to session: ${session_id} by user ${req.userId}`);
       return res.status(404).json({ 
         message: 'Active session not found or you do not have permission' 
       });
@@ -105,7 +99,6 @@ exports.addPesticideUpload = async (req, res) => {
       application_date: req.body.application_date || new Date()
     });
 
-    logger.info(`Pesticide upload added for session: ${session_id} by user ${req.userId}`);
     res.status(201).json({
       message: 'Pesticide application recorded successfully',
       upload
@@ -113,7 +106,6 @@ exports.addPesticideUpload = async (req, res) => {
     
   } catch (error) {
     console.error('Add pesticide upload error:', error);
-    logger.error(`Error adding pesticide upload: ${error.message}`);
     res.status(500).json({ message: 'Server error recording pesticide application' });
   }
 };
