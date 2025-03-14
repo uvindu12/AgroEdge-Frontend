@@ -162,6 +162,13 @@ exports.endSession = async (req, res) => {
         message: 'Active session not found or you do not have permission to end it' 
       });
     }
+
+    // Check if soil data is missing
+    if (!session.soil_type || !session.soil_ph) {
+      return res.status(400).json({
+        message: 'Soil data is required before ending the session. Please update soil information.'
+      });
+    }
     
     // Calculate total revenue and profit/loss
     const total_revenue = actual_harvest * selling_price;
