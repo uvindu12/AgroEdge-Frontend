@@ -1,11 +1,14 @@
 from fastapi import FastAPI
-import uvicorn
+from app.model import predict_price
+from app.schemas import PricePredictionRequest
 
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+@app.post("/predict_price/")
+async def predict(request: PricePredictionRequest):
+    return predict_price(request)
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+
+
+
+

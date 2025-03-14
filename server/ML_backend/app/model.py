@@ -1,26 +1,73 @@
 import numpy as np
 import tensorflow as tf
+from datetime import datetime, timedelta
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler
+import pandas as pd
 from app.schemas import PricePredictionRequest
 
-# Load the trained model
+# Load dataset (same dataset as Jupyter)
+df = pd.read_excel("data/vegetable_fruit_prices.xlsx")
+df["Date"] = pd.to_datetime(df["Date"])
+df["Commodity"] = df["Commodity"].str.strip().str.lower()
+df["Market Region"] = df["Market Region"].str.strip().str.lower()
+
+# Fit LabelEncoders on full dataset (same as Jupyter)
+crop_encoder = LabelEncoder()
+city_encoder = LabelEncoder()
+crop_encoder.fit(df["Commodity"].unique())
+city_encoder.fit(df["Market Region"].unique())
+
+# Fit MinMaxScaler on actual price range (same as Jupyter)
+scaler_price = MinMaxScaler(feature_range=(0, 1))
+df["Price_Scaled"] = scaler_price.fit_transform(df[["Price per Unit (LKR/kg)"]])  # 🛠 FIX: Ensure Scaling
+
+# Load trained LSTM model
 MODEL_PATH = "model/time_series_forecasting_model.keras"
 model = tf.keras.models.load_model(MODEL_PATH)
 
-# Encoding mappings (Modify as needed)
-district_encoder = {"Colombo": 0, "Kandy": 1, "Dambulla": 2}
-vegetable_encoder = {"Carrot": 0, "Beans": 1, "Leeks": 2}
-
 def predict_price(request: PricePredictionRequest):
-    """Processes input and returns predicted vegetable price."""
-    district_code = district_encoder.get(request.district, -1)
-    vegetable_code = vegetable_encoder.get(request.vegetable, -1)
+    """Predicts future weekly prices for the given district & vegetable."""
+    try:
+        # Encode input using the same method from Jupyter
+        district_code = city_encoder.transform([request.district.lower()])[0]
+        vegetable_code = crop_encoder.transform([request.vegetable.lower()])[0]
 
-    if district_code == -1 or vegetable_code == -1:
-        return {"error": "Invalid district or vegetable"}
+        # Get last known prices from dataset
+        df_filtered = df[(df["Commodity"] == request.vegetable.lower()) & 
+                         (df["Market Region"] == request.district.lower())]
+        
+        if df_filtered.empty:
+            return {"error": "No data available for this commodity and region"}
 
-    input_data = np.array([[district_code, vegetable_code]])
-    predicted_price = model.predict(input_data)[0][0]
+        df_filtered = df_filtered.sort_values("Date")
 
-    return {"predicted_price": round(predicted_price, 2)}
+        # 🛠 FIX: Ensure 'Price_Scaled' column is available before use
+        if "Price_Scaled" not in df_filtered.columns:
+            return {"error": "'Price_Scaled' column is missing. Ensure price scaling is applied."}
 
-print("hi")
+        last_prices = df_filtered["Price_Scaled"].values[-12:]  # Use last 12 real values
+        last_prices = last_prices.reshape((1, 12, 1))  # Ensure correct shape
+
+        # Generate future dates (next 12 weeks)
+        future_dates = [(datetime.today() + timedelta(weeks=i)).strftime("%Y-%m-%d") for i in range(12)]
+
+        # Predict next 12 weeks sequentially
+        predicted_prices_scaled = []
+        for _ in range(12):
+            prediction = model.predict(last_prices)[0][0]
+            predicted_prices_scaled.append(prediction)
+
+            # Shift the input for next prediction
+            last_prices = np.roll(last_prices, shift=-1, axis=1)
+            last_prices[0, -1, 0] = prediction  # Replace last value with new prediction
+
+        # Convert scaled predictions back to real prices
+        predicted_prices = scaler_price.inverse_transform(np.array(predicted_prices_scaled).reshape(-1, 1)).flatten()
+
+        # Format response
+        forecast = [{"date": future_dates[i], "predicted_price": round(float(predicted_prices[i]), 2)} for i in range(12)]
+
+        return {"forecast": forecast}
+
+    except Exception as e:
+        return {"error": str(e)}
