@@ -87,6 +87,7 @@ exports.addPesticideUpload = async (req, res) => {
     // Check if session exists and is active
     const session = await checkSession(session_id, req.userId);
     if (!session) {
+      logger.warn(`Unauthorized access to session: ${session_id} by user ${req.userId}`);
       return res.status(404).json({ 
         message: 'Active session not found or you do not have permission' 
       });
@@ -104,6 +105,7 @@ exports.addPesticideUpload = async (req, res) => {
       application_date: req.body.application_date || new Date()
     });
 
+    logger.info(`Pesticide upload added for session: ${session_id} by user ${req.userId}`);
     res.status(201).json({
       message: 'Pesticide application recorded successfully',
       upload
@@ -111,6 +113,7 @@ exports.addPesticideUpload = async (req, res) => {
     
   } catch (error) {
     console.error('Add pesticide upload error:', error);
+    logger.error(`Error adding pesticide upload: ${error.message}`);
     res.status(500).json({ message: 'Server error recording pesticide application' });
   }
 };
