@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const Session = require('../models/Session');
 const { calculateProfit } = require('../utils/calculations');
+const logger = require('../loggingOperations/logger');
 
 // Create a new session
 exports.createSession = async (req, res) => {
@@ -38,6 +39,9 @@ exports.createSession = async (req, res) => {
       is_active: true
     });
 
+    // Log session creation
+    logger.info(`User ${req.userId} created a new session with ID: ${session.id}`);
+
     res.status(201).json({
       message: 'Session created successfully',
       session
@@ -45,6 +49,7 @@ exports.createSession = async (req, res) => {
     
   } catch (error) {
     console.error('Create session error:', error);
+    logger.error(`Error creating session for User ${req.userId}: ${error.message}`);
     res.status(500).json({ message: 'Server error creating session' });
   }
 };
@@ -163,8 +168,8 @@ exports.endSession = async (req, res) => {
       });
     }
 
-    // Check if soil data is missing
-    if (!session.soil_type || !session.soil_ph) {
+     // Check if soil data is missing
+     if (!session.soil_type || !session.soil_ph) {
       return res.status(400).json({
         message: 'Soil data is required before ending the session. Please update soil information.'
       });
@@ -185,6 +190,9 @@ exports.endSession = async (req, res) => {
       end_date: new Date(),
       is_active: false
     });
+
+    // Log session ending
+    logger.info(`User ${req.userId} ended session ID: ${session.id}, Profit/Loss: ${profit_loss}`);
     
     res.status(200).json({
       message: 'Session ended successfully',
@@ -193,6 +201,7 @@ exports.endSession = async (req, res) => {
     
   } catch (error) {
     console.error('End session error:', error);
+    logger.error(`Error ending session ${req.params.id} for User ${req.userId}: ${error.message}`);
     res.status(500).json({ message: 'Server error ending session' });
   }
 };
