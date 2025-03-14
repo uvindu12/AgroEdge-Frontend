@@ -22,3 +22,5 @@ def predict_price(request: PricePredictionRequest):
     predicted_price = model.predict(input_data)[0][0]
 
     return {"predicted_price": round(predicted_price, 2)}
+
+print("hi")
