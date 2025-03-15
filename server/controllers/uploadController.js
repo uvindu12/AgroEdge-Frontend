@@ -38,6 +38,7 @@ exports.addFertilizerUpload = async (req, res) => {
     // Check if session exists and is active
     const session = await checkSession(session_id, req.userId);
     if (!session) {
+      logger.warn(`Unauthorized access to session: ${session_id} by user ${req.userId}`);
       return res.status(404).json({ 
         message: 'Active session not found or you do not have permission' 
       });
@@ -55,12 +56,14 @@ exports.addFertilizerUpload = async (req, res) => {
       application_date: req.body.application_date || new Date()
     });
 
+    logger.info(`Fertilizer upload added for session: ${session_id} by user ${req.userId}`);
     res.status(201).json({
       message: 'Fertilizer application recorded successfully',
       upload
     });
     
   } catch (error) {
+    logger.error(`Error adding fertilizer upload: ${error.message}`);
     console.error('Add fertilizer upload error:', error);
     res.status(500).json({ message: 'Server error recording fertilizer application' });
   }
