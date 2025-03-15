@@ -2,15 +2,12 @@
 
 import { useState } from "react"
 import { Calendar, MessageSquare, Users, Star, ChevronRight } from "lucide-react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/Tabs"
-import { Card } from "../components/ui/Card"
-import CardHeader from "../components/ui/CardHeader"
-import CardTitle from "../components/ui/CardTitle"
-import CardDescription from "../components/ui/CardDescription"
-import CardContent from "../components/ui/CardContent"
-import { Button } from "../components/ui/Button"
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
-import { Input } from "../components/ui/Input"
+import { Input } from "@/components/ui/input"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 
 // Mock data (replace with API calls in a real application)
 const forumTopics = [

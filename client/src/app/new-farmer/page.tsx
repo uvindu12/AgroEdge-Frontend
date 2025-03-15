@@ -19,14 +19,10 @@ import {
   Sprout,
   BarChart2,
 } from "lucide-react"
-import { Card } from "../components/ui/Card"
-import CardContent from "../components/ui/CardContent"
-import { Button } from "../components/ui/Button"
-import CardHeader from "../components/ui/CardHeader"
-import CardTitle from "../components/ui/CardTitle"
-import CardDescription from "../components/ui/CardDescription"
-import CardFooter from "../components/ui/CardFooter"
-import { Progress } from "../components/ui/Progress"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Progress } from "@/components/ui/progress"
+
 
 const districtRecommendations = {
     district: "Anuradhapura",

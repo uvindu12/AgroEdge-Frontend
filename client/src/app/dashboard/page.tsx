@@ -19,13 +19,7 @@ import {
   Sprout,
   BarChart2,
 } from "lucide-react"
-import { getDistrictRecommendations } from "@/lib/api"
-import { Card } from "../components/ui/Card"
-import CardHeader from "../components/ui/CardHeader"
-import CardTitle from "../components/ui/CardTitle"
-import CardContent from "../components/ui/CardContent"
-import { hover } from "framer-motion"
-import { BackgroundBeams } from "../components/ui/background-beams"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function DashboardPage() {
   
