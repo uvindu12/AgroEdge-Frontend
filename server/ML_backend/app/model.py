@@ -28,41 +28,48 @@ model = tf.keras.models.load_model(MODEL_PATH)
 def predict_price(request: PricePredictionRequest):
     """Predicts future weekly prices for the given district & vegetable."""
     try:
-        # Encode input using the same method from Jupyter
-        district_code = city_encoder.transform([request.district.lower()])[0]
-        vegetable_code = crop_encoder.transform([request.vegetable.lower()])[0]
-
-        # Get last known prices from dataset
-        df_filtered = df[(df["Commodity"] == request.vegetable.lower()) & 
-                         (df["Market Region"] == request.district.lower())]
+        # 🛠 Encode district & vegetable using the same method from Jupyter
+        if request.district not in city_encoder.classes_ or request.vegetable not in crop_encoder.classes_:
+            return {"error": "Invalid district or vegetable"}
         
+        district_code = city_encoder.transform([request.district])[0]
+        vegetable_code = crop_encoder.transform([request.vegetable])[0]
+
+        # 🛠 Get the last recorded prices for this district & vegetable
+        df_filtered = df[
+            (df["Commodity"] == request.vegetable) & 
+            (df["Market Region"] == request.district)
+        ].sort_values("Date")
+
         if df_filtered.empty:
             return {"error": "No data available for this commodity and region"}
 
-        df_filtered = df_filtered.sort_values("Date")
+        # 🛠 FIX: Get the last available date & use last 12 real prices
+        last_date = df_filtered["Date"].max()
+        future_dates = [(last_date + timedelta(weeks=i+1)).strftime("%Y-%m-%d") for i in range(12)]
+        
+        # Extract last 12 recorded prices
+        last_prices = df_filtered["Price_Scaled"].values[-12:]
 
-        # 🛠 FIX: Ensure 'Price_Scaled' column is available before use
-        if "Price_Scaled" not in df_filtered.columns:
-            return {"error": "'Price_Scaled' column is missing. Ensure price scaling is applied."}
+        if len(last_prices) < 12:
+            return {"error": "Not enough data for reliable forecasting."}
 
-        last_prices = df_filtered["Price_Scaled"].values[-12:]  # Use last 12 real values
         last_prices = last_prices.reshape((1, 12, 1))  # Ensure correct shape
 
-        # Generate future dates (next 12 weeks)
-        future_dates = [(datetime.today() + timedelta(weeks=i)).strftime("%Y-%m-%d") for i in range(12)]
-
-        # Predict next 12 weeks sequentially
+        # 🛠 FIX: Predict next 12 weeks sequentially using the last known prices
         predicted_prices_scaled = []
         for _ in range(12):
             prediction = model.predict(last_prices)[0][0]
             predicted_prices_scaled.append(prediction)
 
-            # Shift the input for next prediction
+            # Shift input for next prediction
             last_prices = np.roll(last_prices, shift=-1, axis=1)
-            last_prices[0, -1, 0] = prediction  # Replace last value with new prediction
+            last_prices[0, -1, 0] = prediction  # Update with new prediction
 
-        # Convert scaled predictions back to real prices
-        predicted_prices = scaler_price.inverse_transform(np.array(predicted_prices_scaled).reshape(-1, 1)).flatten()
+        # 🛠 Convert predictions back to original price range
+        predicted_prices = scaler_price.inverse_transform(
+            np.array(predicted_prices_scaled).reshape(-1, 1)
+        ).flatten()
 
         # Format response
         forecast = [{"date": future_dates[i], "predicted_price": round(float(predicted_prices[i]), 2)} for i in range(12)]
@@ -71,3 +78,4 @@ def predict_price(request: PricePredictionRequest):
 
     except Exception as e:
         return {"error": str(e)}
+
