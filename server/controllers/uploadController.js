@@ -6,6 +6,7 @@ const IrrigationUpload = require('../models/IrrigationUpload');
 const LaborUpload = require('../models/LaborUpload');
 const MachineryUpload = require('../models/MachineryUpload');
 const DiseaseUpload = require('../models/DiseaseUpload');
+const logger = require('../loggingOperations/logger');
 
 // Check if session exists and is active
 const checkSession = async (sessionId, userId) => {
