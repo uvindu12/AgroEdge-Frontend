@@ -1,6 +1,7 @@
 import type React from "react"
 import Link from "next/link"
-import { BorderBeam } from "./magicui/border-beam"
+import { BorderBeam } from "@/components/magicui/border-beam"
+
 
 
 

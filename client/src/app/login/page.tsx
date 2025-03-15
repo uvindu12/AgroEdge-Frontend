@@ -6,9 +6,9 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Input } from "../components/ui/Input"
-import { Button } from "../components/ui/Button"
-import { BackgroundBeams } from "../components/ui/background-beams";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
 
 
 

@@ -18,19 +18,15 @@ import {
   Clock,
   Droplet,
 } from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
 
-import { Badge } from "../components/ui/badge"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../components/ui/dropdown-menu"
-import { Progress } from "../components/ui/Progress"
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
-import { Button } from "../components/ui/Button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/Tabs"
-import { Card } from "../components/ui/Card"
-import CardHeader from "../components/ui/CardHeader"
-import CardTitle from "../components/ui/CardTitle"
-import CardContent from "../components/ui/CardContent"
-import CardFooter from "../components/ui/CardFooter"
-import CardDescription from "../components/ui/CardDescription"
+
 
 
 // Mock data for the farmer profile

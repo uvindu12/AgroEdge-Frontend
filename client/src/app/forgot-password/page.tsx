@@ -6,16 +6,12 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Mail, ArrowLeft, CheckCircle, Loader2 } from "lucide-react"
-import CardHeader from "../components/ui/CardHeader"
-import { Card } from "../components/ui/Card"
-import CardTitle from "../components/ui/CardTitle"
-import { Button } from "../components/ui/Button"
-import CardDescription from "../components/ui/CardDescription"
-import CardContent from "../components/ui/CardContent"
-import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert"
-import { Label } from "../components/ui/Label"
-import { Input } from "../components/ui/Input"
-import CardFooter from "../components/ui/CardFooter"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+
 
 
 export default function ForgotPasswordPage() {

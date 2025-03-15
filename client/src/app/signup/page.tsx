@@ -8,11 +8,12 @@ import { useRouter } from "next/navigation"
 
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/Select"
-import { Card } from "../components/ui/Card"
-import { Label } from "../components/ui/Label"
-import { Input } from "../components/ui/Input"
-import { Button } from "../components/ui/Button"
+import { Card } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "@/components/ui/button"
+
 
 // Sri Lankan districts
 const DISTRICTS = [

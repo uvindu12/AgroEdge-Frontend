@@ -3,7 +3,7 @@ import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import Joinus from "./components/Joinus";
 import Navbar from "./components/Navbar";
-import { ScrollBasedVelocityDemo } from "./components/Scrollbased";
+import { ScrollBasedVelocityDemo } from "./components/Scrollbassed";
 import Stats from "./components/Stats";
 
 export default function Home() {

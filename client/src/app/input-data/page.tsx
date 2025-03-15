@@ -8,16 +8,15 @@ import { useState } from "react"
 
 
 import Link from "next/link"
-import { Button } from "../components/ui/Button"
-import { Card } from "../components/ui/Card"
-import CardHeader from "../components/ui/CardHeader"
-import CardTitle from "../components/ui/CardTitle"
-import CardContent from "../components/ui/CardContent"
-import { Label } from "../components/ui/Label"
-import { Input } from "../components/ui/Input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/Tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/Select"
-import Toast from "../components/ui/Toast"
+
+
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import Toast from "@/components/ui/Toast"
 
 interface InputData {
   [key: string]: string | number
