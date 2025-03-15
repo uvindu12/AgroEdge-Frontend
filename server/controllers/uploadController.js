@@ -117,7 +117,6 @@ exports.addPesticideUpload = async (req, res) => {
   }
 };
 
-
 // Add irrigation upload
 exports.addIrrigationUpload = async (req, res) => {
   try {
@@ -162,6 +161,134 @@ exports.addIrrigationUpload = async (req, res) => {
     console.error('Add Irrigation upload error:', error);
     logger.error(`Error adding Irrigation upload: ${error.message}`);
     res.status(500).json({ message: 'Server error recording irrigation activity' });
+  }
+};
+
+// Add labor upload
+exports.addLaborUpload = async (req, res) => {
+  try {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { 
+      session_id, labor_hours, wages_per_day
+    } = req.body;
+
+    // Check if session exists and is active
+    const session = await checkSession(session_id, req.userId);
+    if (!session) {
+      logger.warn(`Unauthorized access to session: ${session_id} by user ${req.userId}`);
+      return res.status(404).json({ 
+        message: 'Active session not found or you do not have permission' 
+      });
+    }
+
+    // Create labor upload
+    const upload = await LaborUpload.create({
+      session_id,
+      labor_hours,
+      wages_per_day,
+      labor_date: req.body.labor_date || new Date()
+    });
+
+    logger.info(`Labor upload added for session: ${session_id} by user ${req.userId}`);
+    res.status(201).json({
+      message: 'Labor activity recorded successfully',
+      upload
+    });
+    
+  } catch (error) {
+    console.error('Add labor upload error:', error);
+    logger.error(`Error adding labor upload: ${error.message}`);
+    res.status(500).json({ message: 'Server error recording labor activity' });
+  }
+};
+
+// Add machinery upload
+exports.addMachineryUpload = async (req, res) => {
+  try {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { 
+      session_id, machinery_used, usage_frequency
+    } = req.body;
+
+    // Check if session exists and is active
+    const session = await checkSession(session_id, req.userId);
+    if (!session) {
+      logger.warn(`Unauthorized access to session: ${session_id} by user ${req.userId}`);
+      return res.status(404).json({ 
+        message: 'Active session not found or you do not have permission' 
+      });
+    }
+
+    // Create machinery upload
+    const upload = await MachineryUpload.create({
+      session_id,
+      machinery_used,
+      usage_frequency,
+      machinery_date: req.body.machinery_date || new Date()
+    });
+
+    logger.info(`Machinery upload added for session: ${session_id} by user ${req.userId}`);
+    res.status(201).json({
+      message: 'Machinery usage recorded successfully',
+      upload
+    });
+    
+  } catch (error) {
+    console.error('Add machinery upload error:', error);
+    logger.error(`Error adding machinery upload: ${error.message}`);
+    res.status(500).json({ message: 'Server error recording machinery usage' });
+  }
+};
+
+// Add disease upload
+exports.addDiseaseUpload = async (req, res) => {
+  try {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { 
+      session_id, disease_observed 
+    } = req.body;
+
+    // Check if session exists and is active
+    const session = await checkSession(session_id, req.userId);
+    if (!session) {
+      logger.warn(`Unauthorized access to session: ${session_id} by user ${req.userId}`);
+      return res.status(404).json({ 
+        message: 'Active session not found or you do not have permission' 
+      });
+    }
+
+    // Create disease upload
+    const upload = await DiseaseUpload.create({
+      session_id,
+      disease_observed,
+      disease_date: req.body.disease_date || new Date()
+    });
+
+    logger.info(`Disease upload added for session: ${session_id} by user ${req.userId}`);
+    res.status(201).json({
+      message: 'Disease observation recorded successfully',
+      upload
+    });
+    
+  } catch (error) {
+    console.error('Add disease upload error:', error);
+    logger.error(`Error adding disease upload: ${error.message}`);
+    res.status(500).json({ message: 'Server error recording disease observation' });
   }
 };
 
