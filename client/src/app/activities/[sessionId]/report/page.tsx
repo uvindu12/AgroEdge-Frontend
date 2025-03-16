@@ -2,7 +2,8 @@
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Download } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import { ArrowLeft, BarChart2, DollarSign, Download, TrendingUp } from "lucide-react"
 import Link from "next/link"
 
 
@@ -96,6 +97,49 @@ export default function SessionReportPage() {
                         <span>Download Report</span>
                     </Button>
                 </div>
+            </div>
+
+            <div className ="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <Card className ="bg-green-50">
+                    <CardContent className ="pt-6">
+                        <div className ="flex items-center justify-between">
+                            <div className ="flex items-center gap-2">
+                                <DollarSign className ="h-5 w-5 text-green-600"/>
+                                <h3 className ="font-medium">Total Revenue</h3>
+                            </div>
+                            <span className ="text-2xl font-bold">Rs. {sessionData.totalRevenue.toLocaleString()}</span>
+                        </div>
+                        <p className ="text-sm text-gray-500 mt-2">
+                            {sessionData.actualHarvest} × Rs. {sessionData.sellingPrice} /kg
+                        </p>
+                    </CardContent>
+                </Card>
+
+                <Card className =" bg-red-50">
+                    <CardContent className ="pt-6">
+                        <div className ="flex items-center justify-between">
+                            <div className ="flex items-center gap-2">
+                                <BarChart2 className ="h-5 w-5 text-red-600"/>
+                                <h3 className ="font-medium">Total Expenese</h3>
+                            </div>
+                            <span className ="text-2xl font-bold">Rs. {sessionData.totalExpenses. toLocaleString()}</span>
+                        </div>
+                        <p className ="text-sm text-gray-500 mt-2">All costs including input and labor</p>
+                    </CardContent>
+                </Card>
+
+                <Card className ="bg-blue-50">
+                    <CardContent className ="pt-6">
+                        <div className ="flex items-center justify-between">
+                            <div className ="flex items-center gap-2">
+                                <TrendingUp className ="h-5 w-5 text-blue-600"/>
+                                <h3 className ="font-medium">Net Profit</h3>
+                            </div>
+                            <span className ="text-2xl font-bold">Rs. {sessionData.profit.toLocaleString()}</span>
+                        </div>
+                        <p className ="text-sm text-gray-500 mt-2">ROI: {sessionData.roi}%</p>
+                    </CardContent>
+                </Card>
             </div>
 
             
