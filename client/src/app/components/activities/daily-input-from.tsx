@@ -1,11 +1,12 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { AlertTriangle, Sprout } from "lucide-react"
+import { AlertTriangle, Loader2, Sprout } from "lucide-react"
 import { useState } from "react"
 
 
@@ -253,6 +254,207 @@ export function DailyInputForm ({ sessionId} : DailyInputFormProps) {
                                 </div>
                             </div>
                         </TabsContent>
+
+                        <TabsContent value="pesticide">
+                            <div className ="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="type">Pesticide Type</Label>
+                                    <Input 
+                                       id="type" 
+                                       name="type"
+                                       value={pesticideData.type} 
+                                       onChange={handlePesticideChange}
+                                       required
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="quantity">Pesticide Quantity (kg)</Label>
+                                    <Input
+                                        id="quantity"
+                                        name="quantity"
+                                        type="number"
+                                        value={pesticideData.quantity}
+                                        onChange={handlePesticideChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="applicationFrequency">Pesticide Application Frequency</Label>
+                                        <Input
+                                            id="applicationFrequency"
+                                            name="applicationFrequency"
+                                            value={pesticideData.applicationFrequency}
+                                            onChange={handlePesticideChange}
+                                            required
+                                        />
+                                </div>
+                                <div className="space-y-2">
+                                <Label htmlFor="applicationMethod">Pesticide Application Method</Label>
+                                    <Select onValueChange={(value) => handlePesticideSelectChange("applicationMethod", value)}>
+                                        <SelectTrigger>
+                                        <SelectValue placeholder="Select method" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                        <SelectItem value="spray">Spray</SelectItem>
+                                        <SelectItem value="dusting">Dusting</SelectItem>
+                                        <SelectItem value="soil-application">Soil Application</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div className="space-y-2">
+                                <Label htmlFor="cost">Pesticide Cost (Rs.)</Label>
+                                    <Input
+                                        id="cost"
+                                        name="cost"
+                                        type="number"
+                                        value={pesticideData.cost}
+                                        onChange={handlePesticideChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </TabsContent>
+
+                        <TabsContent value="irrigation">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                <Label htmlFor="waterSource">Water Source</Label>
+                                <Select onValueChange={(value) => handleIrrigationSelectChange("waterSource", value)}>
+                                    <SelectTrigger>
+                                    <SelectValue placeholder="Select source" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                    <SelectItem value="well">Well</SelectItem>
+                                    <SelectItem value="canal">Canal</SelectItem>
+                                    <SelectItem value="rainwater">Rainwater Harvesting</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                </div>
+                                <div className="space-y-2">
+                                <Label htmlFor="irrigationMethod">Irrigation Method</Label>
+                                <Select onValueChange={(value) => handleIrrigationSelectChange("irrigationMethod", value)}>
+                                    <SelectTrigger>
+                                    <SelectValue placeholder="Select method" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                    <SelectItem value="drip">Drip Irrigation</SelectItem>
+                                    <SelectItem value="sprinkler">Sprinkler</SelectItem>
+                                    <SelectItem value="flood">Flood Irrigation</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                </div>
+                                <div className="space-y-2">
+                                <Label htmlFor="waterUsage">Water Usage (liters)</Label>
+                                <Input
+                                    id="waterUsage"
+                                    name="waterUsage"
+                                    type="number"
+                                    value={irrigationData.waterUsage}
+                                    onChange={handleIrrigationChange}
+                                    required
+                                />
+                                </div>
+                                <div className="space-y-2">
+                                <Label htmlFor="irrigationSchedule">Irrigation Schedule</Label>
+                                <Input
+                                    id="irrigationSchedule"
+                                    name="irrigationSchedule"
+                                    value={irrigationData.irrigationSchedule}
+                                    onChange={handleIrrigationChange}
+                                    required
+                                />
+                                </div>
+                                <div className="space-y-2">
+                                <Label htmlFor="irrigationCost">Irrigation Cost (Rs.)</Label>
+                                <Input
+                                    id="irrigationCost"
+                                    name="irrigationCost"
+                                    type="number"
+                                    value={irrigationData.irrigationCost}
+                                    onChange={handleIrrigationChange}
+                                    required
+                                />
+                                </div>
+                            </div>
+                        </TabsContent>
+
+                        <TabsContent value="labor">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                <Label htmlFor="laborHours">Number of Labor Hours</Label>
+                                <Input
+                                    id="laborHours"
+                                    name="laborHours"
+                                    type="number"
+                                    value={laborData.laborHours}
+                                    onChange={handleLaborChange}
+                                    required
+                                />
+                                </div>
+                                <div className="space-y-2">
+                                <Label htmlFor="laborWages">Labor Wages (Rs./day)</Label>
+                                <Input
+                                    id="laborWages"
+                                    name="laborWages"
+                                    type="number"
+                                    value={laborData.laborWages}
+                                    onChange={handleLaborChange}
+                                    required
+                                />
+                                </div>
+                            </div>
+                        </TabsContent>
+
+                        <TabsContent value="machinery">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                <Label htmlFor="machineryUsed">Machinery Used</Label>
+                                <Input
+                                    id="machineryUsed"
+                                    name="machineryUsed"
+                                    value={machineryData.machineryUsed}
+                                    onChange={handleMachineryChange}
+                                    required
+                                />
+                                </div>
+                                <div className="space-y-2">
+                                <Label htmlFor="machineryUsageFrequency">Machinery Usage Frequency</Label>
+                                <Input
+                                    id="machineryUsageFrequency"
+                                    name="machineryUsageFrequency"
+                                    value={machineryData.machineryUsageFrequency}
+                                    onChange={handleMachineryChange}
+                                    required
+                                />
+                                </div>
+                            </div>
+                        </TabsContent>
+
+                        <TabsContent value="diseases">
+                            <div className="space-y-2">
+                                <Label htmlFor="majorDiseasesObserved">Major Diseases Observed</Label>
+                                <Input
+                                id="majorDiseasesObserved"
+                                name="majorDiseasesObserved"
+                                value={diseaseData.majorDiseasesObserved}
+                                onChange={handleDiseaseChange}
+                                required
+                                />
+                            </div>
+                        </TabsContent>
+
+                        <div className="mt-6">
+                            <Button type="submit" disabled={isSubmitting}>
+                                {isSubmitting ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Saving...
+                                </>
+                                ) : (
+                                "Save Input Data"
+                                )}
+                            </Button>
+                        </div>
                     </form>
                 </Tabs>
             </CardContent>

@@ -1,5 +1,6 @@
 "use client"
 
+import { DailyInputForm } from "@/app/components/activities/daily-input-from"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
