@@ -50,7 +50,7 @@ export default function DashboardPage() {
       description: "See your recent farming activities",
       icon: Sprout,
       color: "bg-yellow-500",
-      path: "/activity",
+      path: "/activities", 
     },
     {
       title: "Settings",
