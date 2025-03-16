@@ -46,18 +46,11 @@ export default function DashboardPage() {
       path: "/community",
     },
     {
-      title: "Reports",
-      description: "View and generate farm reports",
-      icon: FileText,
+      title: "Activity",
+      description: "See your recent farming activities",
+      icon: Sprout,
       color: "bg-yellow-500",
-      path: "/report",
-    },
-    {
-      title: "Input Data",
-      description: "Manage your farming data",
-      icon: Database,
-      color: "bg-purple-500",
-      path: "/input-data",
+      path: "/activity",
     },
     {
       title: "Settings",
