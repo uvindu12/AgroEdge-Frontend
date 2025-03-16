@@ -103,6 +103,48 @@ export default function SessionDetailPage () {
                                                 <span> Expected Harvest : {new Date(sessionData.expectedHarvestDate). toLocaleDateString()}</span>
                                             </div>
                                         </div>
+
+                                        <div className ="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div>
+                                                <h3 className="text-lg font-medium mb-2">Farm Details</h3>
+                                                <div className="space-y-2">
+                                                    <div className="flex justify-between">
+                                                        <span className="text-gray-500">Farm Size:</span>
+                                                        <span>{sessionData.farmSize}</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span className="text-gray-500">Farm Type:</span>
+                                                        <span>{sessionData.farmType}</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span className="text-gray-500">Village:</span>
+                                                        <span>{sessionData.village}</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span className="text-gray-500">District:</span>
+                                                        <span>{sessionData.district}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <h3 className="text-lg font-medium mb-2">Crop Details</h3>
+                                                <div className ="space-y-2">
+                                                    <div className ="flex justify-between">
+                                                        <span className ="text-gray-500">Crop Type :</span>
+                                                        <span>{sessionData.cropType}</span>
+                                                    </div>
+                                                    <div className ="flex justify-between">
+                                                        <span className ="text-gray-500">Variety :</span>
+                                                        <span>{sessionData.variety}</span>
+                                                    </div>
+                                                    <div className ="flex justify-between">
+                                                        <span className ="text-gray-500">Expected Harvest</span>
+                                                        <span>{sessionData.expectedHarvest}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </CardContent>
                             </Card>
