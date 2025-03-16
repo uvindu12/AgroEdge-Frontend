@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowLeft, BarChart2, DollarSign, Download, TrendingUp } from "lucide-react"
 import Link from "next/link"
 
@@ -142,7 +142,81 @@ export default function SessionReportPage() {
                 </Card>
             </div>
 
-            
+            <div className ="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className ="lg:col-span-2 space-y-6">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Harvest Summary</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <h3 className ="text-lg font-medium mb-2">Harvest Details</h3>
+                                    <div className ="space-y-2">
+                                        <div className ="flex justify-between">
+                                            <span className ="text-gray-500">Expected Harvest:</span>
+                                            <span>{sessionData.expectedHarvest}</span>
+                                        </div>
+                                        <div className ="flex justify-between">
+                                            <span className ="text-gray-500">Actual Harvest:</span>
+                                            <span>{sessionData.actualHarvest}</span>
+                                        </div>
+                                        <div className=" flex justify-between">
+                                            <span className ="text-gray-500">Yield Rate:</span>
+                                            <span>{Math.round(
+                                                (Number.parseInt(sessionData.actualHarvest) / Number.parseInt (sessionData.farmSize)) * 100,
+                                            ) / 100 }{" "} kg/acre</span>
+                                        </div>
+                                        <div className ="flex justify-between">
+                                            <span className ="text-gray-500">Selling Price:</span>
+                                            <span>{sessionData.sellingPrice} / kg</span>
+                                        </div>
+                                        <div className ="flex justify-between">
+                                            <span className ="text-gray-500">Buyer Type:</span>
+                                            <span>{sessionData.buyerType}</span>
+                                        </div>
+                                        <div className ="flex justify-between">
+                                            <span className ="text-gray-500">Storage Method:</span>
+                                            <span>{sessionData.storageMethod}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 className ="text-lg font-medium mb-2">Farm Details</h3>
+                                    <div className ="space-y-2">
+                                        <div className ="flex justify-between">
+                                            <span className ="text-gray-500">Farm Size:</span>
+                                            <span>{sessionData.farmSize}</span>
+                                        </div>
+                                        <div className ="flex justify-between">
+                                            <span className ="text-gray-500">Farm Type:</span>
+                                            <span>{sessionData.farmType}</span>
+                                        </div>
+                                        <div className ="flex justify-between">
+                                            <span className ="text-gray-500">Village:</span>
+                                            <span>{sessionData.village}</span>
+                                        </div>
+                                        <div className ="flex justify-between">
+                                            <span className ="text-gray-500">District:</span>
+                                            <span>{sessionData.district}</span>
+                                        </div>
+                                        <div className ="flex justify-between">
+                                            <span className ="text-gray-500">Duration</span>
+                                            <span>{Math.round (
+                                                (new Date(sessionData.endDate).getTime () - new Date (sessionData.startDate) .getTime())/
+                                                (1000 * 60 * 60 * 24),
+                                            )}{" "} days
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    
+                </div>
+            </div>
         </div>
     )
 }
