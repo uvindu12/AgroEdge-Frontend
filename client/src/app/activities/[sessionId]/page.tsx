@@ -145,9 +145,57 @@ export default function SessionDetailPage () {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div className ="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div>
+                                                <h3 className ="text-lg font-medium mb-2">Seed Details</h3>
+                                                <div className ="space-y-2">
+                                                    <div className ="flex justify-between">
+                                                        <span className ="text-gray-500">Seed Type :</span>
+                                                        <span>{sessionData.seedType}</span>
+                                                    </div>
+                                                    <div className ="flex justify-between">
+                                                        <span className ="text-gray-500">Seed Variety :</span>
+                                                        <span>{sessionData.seedVariety}</span>
+                                                    </div>
+                                                    <div className ="flex justify-between">
+                                                        <span className ="text-gray-500">Seed Source :</span>
+                                                        <span>{sessionData.seedSource}</span>
+                                                    </div>
+                                                    <div className ="flex justify-between">
+                                                        <span className ="text-gray-500">Seed Quantity :</span>
+                                                        <span>{sessionData.seedQuantity}</span>
+                                                    </div>
+                                                    <div className ="flex justify-between">
+                                                        <span className ="text-gray-500">Seed Cost :</span>
+                                                        <span>{sessionData.seedCost}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <h3 className ="text-lg font-medium mb-2">
+                                                    Soil Details
+                                                </h3>
+                                                <div className ="space-y-2">
+                                                    <div className="flex justify-between">
+                                                        <span className ="text-gray-500">Soil Type :</span>
+                                                        <span>{sessionData.soilType}</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span className ="text-gray-500">Soil pH :</span>
+                                                        <span>{sessionData.soilPh}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </CardContent>
                             </Card>
+                        </TabsContent>
+
+                        <TabsContent value ="daily-input">
+                            <DailyInputForm sessionId={sessionId}/>
                         </TabsContent>
                     </Tabs>
                 </div>
