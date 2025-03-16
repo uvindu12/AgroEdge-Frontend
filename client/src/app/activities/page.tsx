@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CheckCircle, Clock, Filter, Plus } from "lucide-react"
 import { useState } from "react"
 
@@ -45,7 +45,73 @@ export default function ActivitiesPage() {
                         <Filter className ="h-4 w-4 mr-2"/>Filter
                     </Button>
                 </div>
+
+                <TabsContent value="active" className ="space-y-4">
+                    <SessionList
+                    status ="active"
+                    sessions ={[
+                        {
+                            id: "1",
+                            cropType: "Rice",
+                            variety: "BG 300",
+                            startDate: "2024-03-01",
+                            expectedHarvestDate: "2024-06-15",
+                            farmSize: "5 acres",
+                            district: "Anuradhapura",
+                            lastUpdated: "2024-03-12",
+                            progress: 25,
+                            status: "active",
+                        },
+                        {
+                            id: "2",
+                            cropType: "Vegetables",
+                            variety: "Carrot",
+                            startDate: "2024-02-15",
+                            expectedHarvestDate: "2024-04-30",
+                            farmSize: "2 acres",
+                            district: "Anuradhapura",
+                            lastUpdated: "2024-03-10",
+                            progress: 45,
+                            status: "active",
+                        },
+                    ]}
+                    />
+                </TabsContent>
+
+                <TabsContent value ="completed" className ="space-y-4">
+                    <SessionList 
+                    status ="completed"
+                    sessions ={[
+                        {
+                            id: "3",
+                            cropType: "Rice",
+                            variety: "BG 352",
+                            startDate: "2023-09-01",
+                            endDate: "2024-01-15",
+                            farmSize: "4 acres",
+                            district: "Anuradhapura",
+                            profit: 125000,
+                            roi: 32,
+                            status: "completed",
+                        },
+                        {
+                            id: "4",
+                            cropType: "Chili",
+                            variety: "MI-2",
+                            startDate: "2023-10-15",
+                            endDate: "2024-02-28",
+                            farmSize: "3 acres",
+                            district: "Anuradhapura",
+                            profit: 210000,
+                            roi: 45,
+                            status: "completed",
+                    },
+                    ]}
+                    />
+                </TabsContent>
             </Tabs>
+
+            <NewSessionDialog open={isNewSessionDialogOpen} onOpenChange={setIsNewSessionDialogOpen}/>
         </div>
     )
 }
