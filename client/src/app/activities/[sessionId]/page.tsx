@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowLeft, Badge } from "lucide-react"
+import { AlertTriangle, ArrowLeft, Badge, Calendar, Droplet, Leaf, Sprout, Users } from "lucide-react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import { useState } from "react"
@@ -197,9 +197,95 @@ export default function SessionDetailPage () {
                         <TabsContent value ="daily-input">
                             <DailyInputForm sessionId={sessionId}/>
                         </TabsContent>
+
+                        <TabsContent value="history">
+                            <InputHistoryList sessionId={sessionId}/>
+                        </TabsContent>
                     </Tabs>
                 </div>
+
+                <div>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Session Summary</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="space-y-4">
+                                <div className ="grid grid-cols-2 gap-4">
+                                    <div className ="bg-blue-50 p-3 rounded-lg">
+                                        <div className ="flex items-center gap-2">
+                                            <Calendar className ="h-5 w-5 text-blue-600"/>
+                                            <span className ="text-sm font-medium">Days Active</span>
+                                        </div>
+                                        <p className ="text-2xl font-bold mt-1">12</p>
+                                    </div>
+                                    <div className ="bg-green-50 p-3 rounded-lg">
+                                        <div className ="flex items-center gap-2">
+                                            <Leaf className ="h-5 w-5 text-green-600"/>
+                                            <span className ="text-sm font-medium">Farm Size</span>
+                                        </div>
+                                        <p className ="text-2xl font-bold mt-1">{sessionData.farmSize}</p>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <h3 className="text-sm font-medium">Recent Activities</h3>
+                                    <div className="space-y-2">
+                                        <div className="flex items-start gap-2 p-2 bg-gray-50 rounded-md">
+                                        <Droplet className="h-4 w-4 text-blue-500 mt-0.5" />
+                                            <div>
+                                                <p className="text-sm font-medium">Irrigation</p>
+                                                <p className="text-xs text-gray-500">2000 liters applied</p>
+                                                <p className="text-xs text-gray-500">Today</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-start gap-2 p-2 bg-gray-50 rounded-md">
+                                            <Sprout className="h-4 w-4 text-green-500 mt-0.5" />
+                                            <div>
+                                                <p className="text-sm font-medium">Fertilizer</p>
+                                                <p className="text-xs text-gray-500">50kg NPK applied</p>
+                                                <p className="text-xs text-gray-500">Yesterday</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-start gap-2 p-2 bg-gray-50 rounded-md">
+                                            <Users className="h-4 w-4 text-orange-500 mt-0.5" />
+                                            <div>
+                                                <p className="text-sm font-medium">Labor</p>
+                                                <p className="text-xs text-gray-500">8 hours of work</p>
+                                                <p className="text-xs text-gray-500">2 days ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className ="space-y-2">
+                                    <h3 className ="text-sm font-medium">Alerts</h3>
+                                    <div className ="flex items-start gap-2 p-2 bg-red-50 rounded-md">
+                                        <AlertTriangle className ="h-4 w-4 text-red-500 mt-0.5"/>
+                                        <div>
+                                            <p className ="text-sm font-medium">Irrigation Due</p>
+                                            <p className ="text-xs text-gray-500">Recommended to irrigate within 2 days</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className ="space-y-2">
+                                    <h3 className ="text-sm font-medium">Weather Forecast</h3>
+                                    <div className ="flex justify-between items-center p-2 bg-gray-500 rounded-md">
+                                        <div>
+                                            <p className ="text-sm">Today</p>
+                                            <p className ="text-sm font-medium">32°C</p>
+                                            <p className ="text-xs text-gray-500">10% rain</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
+
+            <EndSessionDialog open={isEndSessionDialogOpen} onOpenChange ={setIsEndSessionDialogOpen} sessionId ={sessionId}/>
         </div>
     )
 
