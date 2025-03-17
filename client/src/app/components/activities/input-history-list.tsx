@@ -201,8 +201,94 @@ export function InputHistoryList({ sessionId }: InputHistoryListProps) {
                     <CardTitle>Input History</CardTitle>
                     <CardDescription> Record of all your farming activities</CardDescription>
                 </div>
+                <div>
+                    <Select value ={filter} onValueChange ={setFilter}>
+                        <SelectTrigger className ="w-[180px]">
+                            <SelectValue placeholder ="Filter by type"/>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All Activities</SelectItem>
+                            <SelectItem value="all">Fertilizer</SelectItem>
+                            <SelectItem value="all">Pesticide</SelectItem>
+                            <SelectItem value="all">Irrigation</SelectItem>
+                            <SelectItem value="all">Labor</SelectItem>
+                            <SelectItem value="all">Machinery</SelectItem>
+                            <SelectItem value="all">Diseases</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
             </div>
         </CardHeader>
+        <CardContent>
+            {filteredInputs.length === 0 ? (
+                <div className ="text-center py-8">
+                    <p className ="text-gray-500">No input history found</p>
+                </div>
+            ) : (
+                <>
+                    <div className ="rounded-md border">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Date</TableHead>
+                                    <TableHead>Type</TableHead>
+                                    <TableHead>Details</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {paginatedInputs.map ((input) => (
+                                    <TableRow key={input.id}>
+                                        <TableCell>
+                                            <div className ="flex items-center gap-2">
+                                                <Calendar className ="h-4 w-4 text-gray-500"/>
+                                                {new Date (input.date) .toLocaleDateString()}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className ="flex items-center gap-2">
+                                                {getInputIcon (input.type)}
+                                                <span className = "capitalize">{input.type}</span>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className ="text-sm space-y-1">{renderInputDetails(input)}</div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+
+                    {totalPages > 1 && (
+                        <div className ="flex items-center justify-between mt-4">
+                            <div className ="text-sm text-gray-500">
+                                Showing {startIndex + 1 } to {Math.min (startIndex + itemsPerPage, filteredInputs.length)} of {" "}
+                                {filteredInputs.length} entries
+                            </div>
+                            <div className ="flex items-center gap-2">
+                                <Button 
+                                    variant ="outline" 
+                                    size ="icon" 
+                                    onClick={() => setCurrentPage ((prev) => Math.max(prev - 1 , 1))}
+                                    disabled ={currentPage ===1}>
+                                    <ChevronLeft className ="h-4 w-4"/>
+                                </Button>
+                                <span className ="text-sm">
+                                    Page {currentPage} of {totalPages}
+                                </span>
+                                <Button 
+                                    variant ="outline"
+                                    size ="icon"
+                                    onClick={() => setCurrentPage ((prev) => Math.min (prev + 1, totalPages))}
+                                    disabled = {currentPage === totalPages}>
+                                    <ChevronRight className ="h-4 w-4"/>
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+                </>
+            )}
+        </CardContent>
     </Card>
   )
 }
