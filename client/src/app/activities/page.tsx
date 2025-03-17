@@ -54,7 +54,7 @@ export default function ActivitiesPage() {
                     sessions ={[
                         {
                             id: "1",
-                            cropType: "Beetroot",
+                            cropType: "Cabbage",
                             variety: "BG 300",
                             startDate: "2024-03-01",
                             expectedHarvestDate: "2024-06-15",
@@ -86,7 +86,7 @@ export default function ActivitiesPage() {
                     sessions ={[
                         {
                             id: "3",
-                            cropType: "Rice",
+                            cropType: "Beetroot",
                             variety: "BG 352",
                             startDate: "2023-09-01",
                             endDate: "2024-01-15",
@@ -98,7 +98,7 @@ export default function ActivitiesPage() {
                         },
                         {
                             id: "4",
-                            cropType: "Chili",
+                            cropType: "Potato",
                             variety: "MI-2",
                             startDate: "2023-10-15",
                             endDate: "2024-02-28",
