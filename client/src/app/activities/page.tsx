@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CheckCircle, Clock, Filter, Plus } from "lucide-react"
 import { useState } from "react"
+import { NewSessionDialog } from "../components/activities/new-session-dialog"
 
 
 

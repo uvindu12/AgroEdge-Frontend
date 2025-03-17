@@ -215,8 +215,43 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
                             />
                         </div>
 
-                        
+                        {/* Soil Details */}
+
+                        <div className="space-y-2">
+                            <Label htmlFor="soil_type">Soil Type</Label>
+                            <Select onValueChange={(value) => handleSelectChange("soil_type", value)}>
+                                <SelectTrigger>
+                                <SelectValue placeholder="Select soil type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                <SelectItem value="clay">Clay</SelectItem>
+                                <SelectItem value="loamy">Loamy</SelectItem>
+                                <SelectItem value="sandy">Sandy</SelectItem>
+                                <SelectItem value="silt">Silt</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="soil_ph">Soil pH</Label>
+                            <Input id="soil_ph" name="soil_ph" value={formData.soil_ph} onChange={handleChange} required />
+                        </div>
                     </div>
+
+                    <DialogFooter>
+                        <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                        Cancel
+                        </Button>
+                        <Button type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? (
+                            <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Starting Session...
+                            </>
+                        ) : (
+                            "Start Session"
+                        )}
+                        </Button>
+                    </DialogFooter>
                 </form>
             </DialogContent>
         </Dialog>
