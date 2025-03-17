@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CheckCircle, Clock, Filter, Plus } from "lucide-react"
 import { useState } from "react"
 import { NewSessionDialog } from "../components/activities/new-session-dialog"
+import { SessionList } from "../components/activities/session-list"
 
 
 
@@ -53,7 +54,7 @@ export default function ActivitiesPage() {
                     sessions ={[
                         {
                             id: "1",
-                            cropType: "Rice",
+                            cropType: "Beetroot",
                             variety: "BG 300",
                             startDate: "2024-03-01",
                             expectedHarvestDate: "2024-06-15",
@@ -65,7 +66,7 @@ export default function ActivitiesPage() {
                         },
                         {
                             id: "2",
-                            cropType: "Vegetables",
+                            cropType: "Oinon",
                             variety: "Carrot",
                             startDate: "2024-02-15",
                             expectedHarvestDate: "2024-04-30",
