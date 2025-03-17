@@ -24,7 +24,7 @@ const sessionData = {
     farmSize: "5 acres",
     district: "Anuradhapura",
     village: "Mihintale",
-    farmType: "Paddy",
+    farmType: "Vegitavle",
     expectedHarvest: "10000 kg",
     seedType: "Certified",
     seedVariety: "BG 300",
