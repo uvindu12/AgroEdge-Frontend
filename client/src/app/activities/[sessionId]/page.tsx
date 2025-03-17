@@ -2,6 +2,7 @@
 
 import { DailyInputForm } from "@/app/components/activities/daily-input-from"
 import { EndSessionDialog } from "@/app/components/activities/end-session-dialog"
+import { InputHistoryList } from "@/app/components/activities/input-history-list"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
