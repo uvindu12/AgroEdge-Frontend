@@ -34,6 +34,7 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
         crop_type: "",
         veg_variety: "",
         expected_harvest: "",
+        actual_harvest: "",
         seed_type: "",
         seed_variety: "",
         seed_source: "",
@@ -192,6 +193,7 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
                             />
                         </div>
 
+
                         <div className ="space-y-2">
                             <Label htmlFor="seed_type">Seed Type</Label>
                             <Select onValueChange ={(value) => handleSelectChange("seed_type", value)}>
@@ -208,15 +210,17 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
                         </div>
 
                         <div className ="space-y-2">
-                            <Label htmlFor ="seed_variety">Seed Variety</Label>
+                            <Label htmlFor ="actual_harvest">Actual Harvest (kg)</Label>
                             <Input
-                                id="seed_variety"
-                                name="seed_variety"
-                                value={formData.seed_variety}
+                                id="actual_harvest"
+                                name="actual_harvest"
+                                value={formData.actual_harvest}
                                 onChange={handleChange}
                                 required
                             />
                         </div>
+
+                        
                         <div className ="space-y-2">
                             <Label htmlFor="seed_source">Seed Source</Label>
                             <Select onValueChange ={(value) => handleSelectChange("seed_type", value)}>
@@ -242,18 +246,6 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
                                 required
                             />
                         </div>
-                        <div className ="space-y-2">
-                            <Label htmlFor="seed_cost">Seed Cost (LKR)</Label>
-                            <Input
-                                id="seed_cost"
-                                name="seed_cost"
-                                value={formData.seed_cost}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-
-                        {/* Soil Details */}
 
                         <div className="space-y-2">
                             <Label htmlFor="soil_type">Soil Type</Label>
@@ -273,6 +265,32 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
                                 </SelectContent>
                             </Select>
                         </div>
+
+                        <div className ="space-y-2">
+                            <Label htmlFor ="seed_variety">Seed Variety</Label>
+                            <Input
+                                id="seed_variety"
+                                name="seed_variety"
+                                value={formData.seed_variety}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div className ="space-y-2">
+                            <Label htmlFor="seed_cost">Seed Cost (LKR)</Label>
+                            <Input
+                                id="seed_cost"
+                                name="seed_cost"
+                                value={formData.seed_cost}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        {/* Soil Details */}
+
+                        
                         <div className="space-y-2">
                             <Label htmlFor="soil_ph">Soil pH</Label>
                             <Input id="soil_ph" name="soil_ph" value={formData.soil_ph} onChange={handleChange} required />

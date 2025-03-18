@@ -268,6 +268,17 @@ export function DailyInputForm ({ sessionId} : DailyInputFormProps) {
                                     />
                                 </div>
                                 <div className="space-y-2">
+                                    <Label htmlFor="brand">Pesticide Brand</Label>
+                                    <Input
+                                        id="brand"
+                                        name="brand"
+                                        type="number"
+                                        value={pesticideData.name}
+                                        onChange={handlePesticideChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="space-y-2">
                                     <Label htmlFor="quantity">Pesticide Quantity (kg)</Label>
                                     <Input
                                         id="quantity"
@@ -444,7 +455,7 @@ export function DailyInputForm ({ sessionId} : DailyInputFormProps) {
                         </TabsContent>
 
                         <div className="mt-6">
-                            <Button type="submit" disabled={isSubmitting}>
+                            <Button className="bg-green-500 hover:bg-green-300 hover:text-green-900" type="submit" disabled={isSubmitting}>
                                 {isSubmitting ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
