@@ -116,7 +116,7 @@ export function SessionList ({ sessions, status}  : SessionListProps) {
 
                             <div className="mt-4">
                                 <Link href={`/activities/${session.id}`}>
-                                    <Button variant="outline" className="w-full">
+                                    <Button  variant="outline" className="w-full bg-green-100 hover:bg-green-500 hover:text-green-50">
                                         {status === "active" ? "Manage Session" : "View Report"}
                                         <ChevronRight className="ml-2 h-4 w-4" />
                                     </Button>

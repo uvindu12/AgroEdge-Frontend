@@ -198,7 +198,7 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select seed type"/>
                                 </SelectTrigger>
-                                <SelectContent>
+                                <SelectContent className ="bg-green-50">
                                     <SelectItem value="certified">Certified</SelectItem>
                                     <SelectItem value="hybrid">Hybrid</SelectItem>
                                     <SelectItem value="organic">Organic</SelectItem>
@@ -219,13 +219,18 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
                         </div>
                         <div className ="space-y-2">
                             <Label htmlFor="seed_source">Seed Source</Label>
-                            <Input
-                                id="seed_source"
-                                name="seed_source"
-                                value={formData.seed_source}
-                                onChange={handleChange}
-                                required
-                            />
+                            <Select onValueChange ={(value) => handleSelectChange("seed_type", value)}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select seed type"/>
+                                </SelectTrigger>
+                                <SelectContent className ="bg-green-50">
+                                    <SelectItem value="Department of Agriculture (DOA)">Department of Agriculture (DOA)</SelectItem>
+                                    <SelectItem value="Private Seed Suppliers">Private Seed Suppliers</SelectItem>
+                                    <SelectItem value="Local Agricultural Shops">Local Agricultural Shops
+                                    </SelectItem>
+                                    <SelectItem value="Seed Saving">Seed Saving</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                         <div className ="space-y-2">
                             <Label htmlFor="seed_quantity">Seed Quantity (kg)</Label>
@@ -256,11 +261,15 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
                                 <SelectTrigger>
                                 <SelectValue placeholder="Select soil type" />
                                 </SelectTrigger>
-                                <SelectContent>
-                                <SelectItem value="clay">Clay</SelectItem>
-                                <SelectItem value="loamy">Loamy</SelectItem>
-                                <SelectItem value="sandy">Sandy</SelectItem>
-                                <SelectItem value="silt">Silt</SelectItem>
+                                <SelectContent className="bg-green-50">
+                                    <SelectItem value="Reddish Brown">Reddish Brown Earth (RBE)</SelectItem>
+                                    <SelectItem value="Alluvial Soils">Alluvial Soils</SelectItem>
+                                    <SelectItem value="Grumusols">Grumusols</SelectItem>
+                                    <SelectItem value="Sandy Loam Soil">Sandy Loam Soil</SelectItem>
+                                    <SelectItem value="Loamy Soil">Loamy Soil</SelectItem>
+                                    <SelectItem value="SSilty Loam Soil">Silty Loam Soil</SelectItem>
+                                    <SelectItem value="Red Yellow Podzolic">Red Yellow Podzolic</SelectItem>
+                                    <SelectItem value="Mountain Reddish Brown">Mountain Reddish Brown</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -271,10 +280,10 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
                     </div>
 
                     <DialogFooter>
-                        <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                        <Button className="bg-green-50 hover:bg-green-300 hover:text-green-900" type="button" variant="outline" onClick={() => onOpenChange(false)}>
                         Cancel
                         </Button>
-                        <Button type="submit" disabled={isSubmitting}>
+                        <Button className="bg-green-500 hover:bg-green-300 hover:text-green-900"  type="submit" disabled={isSubmitting}>
                         {isSubmitting ? (
                             <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
