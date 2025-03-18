@@ -98,10 +98,10 @@ export function SessionList ({ sessions, status}  : SessionListProps) {
                             {status === "active" && session.progress !== undefined && (
                                 <div className="mt-4">
                                     <div className="flex justify-between text-sm mb-1">
-                                        <span>Progress</span>
-                                        <span>{session.progress}%</span>
+                                        <span >Progress</span>
+                                        <span >{session.progress}%</span>
                                     </div>
-                                <Progress value={session.progress} className="h-2" />
+                                <Progress value={session.progress} className="h-2 bg-green-100" />
                                 </div>
                             )}
 
