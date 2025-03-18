@@ -22,7 +22,7 @@ export default function ActivitiesPage() {
                 </div>
 
                 <div className ="flex flex-col sm:flex-row gap-3">
-                    <Button className ="bg-green-600 hover:bg-green-700" onClick ={() =>
+                    <Button className="bg-green-500 hover:bg-green-300 hover:text-green-900" onClick ={() =>
                         setIsNewSessionDialogOpen(true)
                     }>
                         <Plus className ="h-4 w-4 mr-2"/> Start New Session

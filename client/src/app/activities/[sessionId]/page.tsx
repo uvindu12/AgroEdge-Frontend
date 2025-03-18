@@ -13,11 +13,9 @@ import { useParams } from "next/navigation"
 import { useState } from "react"
 
 
-
-
 const sessionData = {
     id: "1",
-    cropType: "Rice",
+    cropType: "Beetroot",
     variety: "BG 300",
     startDate: "2024-03-01",
     expectedHarvestDate: "2024-06-15",
