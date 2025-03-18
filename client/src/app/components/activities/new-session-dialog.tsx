@@ -91,8 +91,8 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
                                 <SelectTrigger>
                                     <SelectValue placeholder= "Select farm type"/>
                                 </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="paddy">Paddy</SelectItem>
+                                <SelectContent className ="bg-green-50">
+                                    <SelectItem value="paddy">Organic</SelectItem>
                                     <SelectItem value="vegetable">Vegetable</SelectItem>
                                     <SelectItem value ="fruit">Fruit</SelectItem>
                                     <SelectItem value ="mixed">Mixed</SelectItem>
@@ -100,10 +100,7 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
                             </Select>
                         </div>
 
-                        <div className ="space-y-2">
-                            <Label htmlFor="village"></Label>
-                            <Input id="village" name="village" value={formData.village} onChange={handleChange} required/>
-                        </div>
+                        
 
                         <div className="space-y-2">
                             <Label htmlFor ="district">District</Label>
@@ -111,12 +108,24 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select district"/>
                                 </SelectTrigger>
-                                <SelectContent>
+                                <SelectContent className ="bg-green-50">
                                         <SelectItem value="Anuradhapura">Anuradhapura</SelectItem>
-                                        <SelectItem value="Colombo">Colombo</SelectItem>
+                                        <SelectItem value="Colombo">Polonnaruwa</SelectItem>
                                         <SelectItem value="Kandy">Kandy</SelectItem>
-                                        <SelectItem value="Galle">Galle</SelectItem>
+                                        <SelectItem value="Kurunagala">Kurunagala</SelectItem>
+                                        <SelectItem value="Nuwara Eliya">Nuwara Eliya</SelectItem>
+                                        <SelectItem value="Mathale">Mathale</SelectItem>
+                                        <SelectItem value="Badulla">Badulla</SelectItem>
+                                        <SelectItem value="Rathnapura">Rathnapura</SelectItem>
                                         <SelectItem value="Jaffna">Jaffna</SelectItem>
+                                        <SelectItem value="Trincomalee">Trincomalee</SelectItem>
+                                        <SelectItem value="Vavuniya">Vavuniya</SelectItem>
+                                        <SelectItem value="Bandarawela">Bandarawela</SelectItem>
+                                        <SelectItem value="Walimada">Walimada</SelectItem>
+                                        <SelectItem value="Haputhale">Haputhale</SelectItem>
+                                        <SelectItem value="Monaragala">Monaragala</SelectItem>
+                                        <SelectItem value="Hambanthota">Hambanthota</SelectItem>
+                                        <SelectItem value="Ampara">Ampara</SelectItem>
                                     </SelectContent>
                             </Select>
                         </div>
@@ -127,25 +136,49 @@ export function NewSessionDialog ({ open, onOpenChange } : NewSessionDialogProps
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select crop type"/>
                                 </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="rice">Rice</SelectItem>
-                                    <SelectItem value="vegetables">Vegetables</SelectItem>
-                                    <SelectItem value="fruits">Fruits</SelectItem>
-                                    <SelectItem value="grains">Grains</SelectItem>
-                                    <SelectItem value="spices">Spices</SelectItem>
+                                <SelectContent className ="bg-green-50">
+                                    <SelectItem value="Leeks">Leeks</SelectItem>
+                                    <SelectItem value="Cabbage">Cabbage</SelectItem>
+                                    <SelectItem value="Pumkin">Pumkin</SelectItem>
+                                    <SelectItem value="Carrot">Carrot</SelectItem>
+                                    <SelectItem value="Potato">Potato</SelectItem>
+                                    <SelectItem value="Onion">Onion</SelectItem>
+                                    <SelectItem value="Winged Bean">Winged Bean</SelectItem>
+                                    <SelectItem value="Beetroot">Beetroot</SelectItem>
+                                    <SelectItem value="brinjal">Brinjal</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
 
                         <div className ="space-y-2">
                             <Label htmlFor="veg_variety">Variety</Label>
-                            <Input
-                                id="veg_variety"
-                                name="veg_variety"
-                                value={formData.veg_variety}
-                                onChange={handleChange}
-                                required
-                            />
+                            <Select onValueChange={(value) => handleSelectChange ("veg_variety ", value)}>
+                                <SelectTrigger >
+                                    <SelectValue placeholder="Select variety" />
+                                </SelectTrigger>
+                                <SelectContent className ="bg-green-50">
+                                    <SelectItem value="Largr Long Summer">Large Long Summer</SelectItem>
+                                    <SelectItem value="Detroit Dark Red">Detroit Dark Red</SelectItem>
+                                    <SelectItem value="Crimson Globe">Crimson Globe</SelectItem>
+                                    <SelectItem value="Jaffna Local">Jaffna Local</SelectItem>
+                                    <SelectItem value="Bombay Red">Bombay Red</SelectItem>
+                                    <SelectItem value="Hybrid Red Creole">Hybrid Red Creole</SelectItem>
+                                    <SelectItem value="Golden Star">Golden Star</SelectItem>
+                                    <SelectItem value="Granola">Granola</SelectItem>
+                                    <SelectItem value="Pathmma">Pathmma</SelectItem>
+                                    <SelectItem value="A.N.K">A.N.K</SelectItem>
+                                    <SelectItem value="Local Strains">Local Strains</SelectItem>
+                                    <SelectItem value="Butternut">Butternut</SelectItem>
+                                    <SelectItem value="SLS 44">SLS 44</SelectItem>
+                                    <SelectItem value="Krishna">Krishna</SelectItem>
+                                    <SelectItem value="Amanda F1">Amanda F1</SelectItem>
+                                    <SelectItem value="Anjalee-F1">Anjalee-F1</SelectItem>
+                                    <SelectItem value="HORDI Lenairi 1">HORDI Lenairi 1</SelectItem>
+                                    <SelectItem value="Thinnaweli purple">Thinnaweli purple</SelectItem>
+                                    <SelectItem value="Padagoda">Padagoda</SelectItem>
+                                    <SelectItem value="SM 164">SM 164</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
 
                         <div className ="space-y-2">
