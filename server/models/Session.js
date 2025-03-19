@@ -21,14 +21,6 @@ const Session = sequelize.define('Session', {
     type: DataTypes.FLOAT,
     allowNull: false
   },
-  farm_type: {
-    type: DataTypes.STRING(50),
-    allowNull: false
-  },
-  village: {
-    type: DataTypes.STRING(100),
-    allowNull: false
-  },
   district: {
     type: DataTypes.STRING(100),
     allowNull: false
@@ -43,14 +35,6 @@ const Session = sequelize.define('Session', {
   },
   expected_harvest: {
     type: DataTypes.FLOAT,
-    allowNull: false
-  },
-  seed_type: {
-    type: DataTypes.STRING(50),
-    allowNull: false
-  },
-  seed_variety: {
-    type: DataTypes.STRING(50),
     allowNull: false
   },
   seed_source: {
@@ -89,27 +73,10 @@ const Session = sequelize.define('Session', {
     type: DataTypes.FLOAT,
     allowNull: true
   },
-  selling_price: {
-    type: DataTypes.FLOAT,
-    allowNull: true
-  },
-  buyer_type: {
-    type: DataTypes.STRING(50),
-    allowNull: true
-  },
-  storage_method: {
-    type: DataTypes.STRING(100),
-    allowNull: true
-  },
-  // Calculated fields
-  total_revenue: {
-    type: DataTypes.FLOAT,
-    allowNull: true
-  },
-  profit_loss: {
-    type: DataTypes.FLOAT,
-    allowNull: true
-  },
+  
+  
+  
+  
   // Session status
   is_active: {
     type: DataTypes.BOOLEAN,

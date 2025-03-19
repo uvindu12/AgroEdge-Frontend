@@ -30,7 +30,6 @@ router.post(
   [
     check('session_id', 'Session ID is required').isInt(),
     check('pesticide_type', 'Pesticide type is required').not().isEmpty(),
-    check('pesticide_name', 'Pesticide name is required').not().isEmpty(),
     check('quantity', 'Quantity is required').isFloat({ min: 0 }),
     check('cost', 'Cost is required').isFloat({ min: 0 })
   ],
@@ -65,30 +64,7 @@ router.post(
   uploadController.addLaborUpload
 );
 
-// @route   POST api/uploads/machinery
-// @desc    Add machinery usage details
-// @access  Private
-router.post(
-  '/machinery',
-  [
-    check('session_id', 'Session ID is required').isInt(),
-    check('machinery_used', 'Machinery used is required').not().isEmpty(),
-    check('usage_frequency', 'Usage frequency is required').not().isEmpty()
-  ],
-  uploadController.addMachineryUpload
-);
 
-// @route   POST api/uploads/disease
-// @desc    Add disease observation details
-// @access  Private
-router.post(
-  '/disease',
-  [
-    check('session_id', 'Session ID is required').isInt(),
-    check('disease_observed', 'Disease observed is required').not().isEmpty()
-  ],
-  uploadController.addDiseaseUpload
-);
 
 // @route   GET api/uploads/session/:sessionId
 // @desc    Get all uploads for a session

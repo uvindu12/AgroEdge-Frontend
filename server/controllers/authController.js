@@ -13,7 +13,7 @@ exports.register = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { username, email, password, full_name, phone } = req.body;
+    const { username, email, password } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({
@@ -32,9 +32,7 @@ exports.register = async (req, res) => {
     const user = await User.create({
       username,
       email,
-      password,
-      full_name,
-      phone
+      password
     });
 
     // Generate JWT token
@@ -48,8 +46,8 @@ exports.register = async (req, res) => {
       user: {
         id: user.id,
         username: user.username,
-        email: user.email,
-        full_name: user.full_name
+        email: user.email
+        
       },
       token
     });
@@ -94,8 +92,7 @@ exports.login = async (req, res) => {
       user: {
         id: user.id,
         username: user.username,
-        email: user.email,
-        full_name: user.full_name
+        email: user.email
       },
       token
     });

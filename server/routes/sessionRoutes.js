@@ -15,14 +15,10 @@ router.post(
   '/',
   [
     check('farm_size', 'Farm size is required').isFloat({ min: 0 }),
-    check('farm_type', 'Farm type is required').not().isEmpty(),
-    check('village', 'Village is required').not().isEmpty(),
     check('district', 'District is required').not().isEmpty(),
     check('crop_type', 'Crop type is required').not().isEmpty(),
     check('veg_variety', 'Vegetable variety is required').not().isEmpty(),
     check('expected_harvest', 'Expected harvest is required').isFloat({ min: 0 }),
-    check('seed_type', 'Seed type is required').not().isEmpty(),
-    check('seed_variety', 'Seed variety is required').not().isEmpty(),
     check('seed_source', 'Seed source is required').not().isEmpty(),
     check('seed_quantity', 'Seed quantity is required').isFloat({ min: 0 }),
     check('seed_cost', 'Seed cost is required').isFloat({ min: 0 })
@@ -60,9 +56,7 @@ router.patch(
   '/:id/end',
   [
     check('actual_harvest', 'Actual harvest is required').isFloat({ min: 0 }),
-    check('selling_price', 'Selling price is required').isFloat({ min: 0 }),
-    check('buyer_type', 'Buyer type is required').not().isEmpty(),
-    check('storage_method', 'Storage method is required').not().isEmpty()
+    
   ],
   sessionController.endSession
 );

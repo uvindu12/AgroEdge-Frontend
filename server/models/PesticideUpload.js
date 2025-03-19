@@ -20,10 +20,7 @@ const PesticideUpload = sequelize.define('PesticideUpload', {
     type: DataTypes.STRING(50),
     allowNull: false
   },
-  pesticide_name: {
-    type: DataTypes.STRING(100),
-    allowNull: false
-  },
+  
   quantity: {
     type: DataTypes.FLOAT,
     allowNull: false

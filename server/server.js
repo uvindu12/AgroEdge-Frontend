@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Test database connection
-testConnection();
+testConnection(); 
 
 // API Routes
 app.use('/api/auth', authRoutes);

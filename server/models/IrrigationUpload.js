@@ -28,10 +28,6 @@ const IrrigationUpload = sequelize.define('IrrigationUpload', {
     type: DataTypes.FLOAT,
     allowNull: false
   },
-  irrigation_schedule: {
-    type: DataTypes.STRING(100),
-    allowNull: true
-  },
   cost: {
     type: DataTypes.FLOAT,
     allowNull: false

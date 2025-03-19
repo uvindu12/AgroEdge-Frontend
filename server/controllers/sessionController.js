@@ -1,6 +1,5 @@
 const { validationResult } = require('express-validator');
 const Session = require('../models/Session');
-const { calculateProfit } = require('../utils/calculations');
 const logger = require('../loggingOperations/logger');
 
 // Create a new session
@@ -13,8 +12,8 @@ exports.createSession = async (req, res) => {
     }
 
     const { 
-      farm_size, farm_type, village, district, crop_type, 
-      veg_variety, expected_harvest, seed_type, seed_variety, 
+      farm_size,   district, crop_type, 
+      veg_variety, expected_harvest,  
       seed_source, seed_quantity, seed_cost, soil_type, soil_ph 
     } = req.body;
 
@@ -22,14 +21,12 @@ exports.createSession = async (req, res) => {
     const session = await Session.create({
       user_id: req.userId,
       farm_size,
-      farm_type,
+      
       village,
       district,
       crop_type,
       veg_variety,
       expected_harvest,
-      seed_type,
-      seed_variety,
       seed_source,
       seed_quantity,
       seed_cost,
@@ -182,11 +179,7 @@ exports.endSession = async (req, res) => {
     // Update session to end it
     await session.update({
       actual_harvest,
-      selling_price,
-      buyer_type,
-      storage_method,
-      total_revenue,
-      profit_loss,
+      
       end_date: new Date(),
       is_active: false
     });

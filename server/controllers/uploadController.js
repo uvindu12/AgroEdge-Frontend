@@ -4,8 +4,6 @@ const FertilizerUpload = require('../models/FertilizerUpload');
 const PesticideUpload = require('../models/PesticideUpload');
 const IrrigationUpload = require('../models/IrrigationUpload');
 const LaborUpload = require('../models/LaborUpload');
-const MachineryUpload = require('../models/MachineryUpload');
-const DiseaseUpload = require('../models/DiseaseUpload');
 const logger = require('../loggingOperations/logger');
 
 // Check if session exists and is active
@@ -31,8 +29,8 @@ exports.addFertilizerUpload = async (req, res) => {
     }
 
     const { 
-      session_id, fertilizer_type, fertilizer_brand, 
-      quantity, npk_ratio, application_method, cost 
+      session_id, fertilizer_type, application_method,
+      quantity,   cost 
     } = req.body;
 
     // Check if session exists and is active
@@ -48,10 +46,8 @@ exports.addFertilizerUpload = async (req, res) => {
     const upload = await FertilizerUpload.create({
       session_id,
       fertilizer_type,
-      fertilizer_brand,
-      quantity,
-      npk_ratio,
       application_method,
+      quantity,
       cost,
       application_date: req.body.application_date || new Date()
     });
@@ -79,8 +75,8 @@ exports.addPesticideUpload = async (req, res) => {
     }
 
     const { 
-      session_id, pesticide_type, pesticide_name, 
-      quantity, application_frequency, application_method, cost 
+      session_id, pesticide_type,  
+      quantity,  cost 
     } = req.body;
 
     // Check if session exists and is active
@@ -96,10 +92,7 @@ exports.addPesticideUpload = async (req, res) => {
     const upload = await PesticideUpload.create({
       session_id,
       pesticide_type,
-      pesticide_name,
       quantity,
-      application_frequency,
-      application_method,
       cost,
       application_date: req.body.application_date || new Date()
     });
@@ -128,7 +121,7 @@ exports.addIrrigationUpload = async (req, res) => {
 
     const { 
       session_id, water_source, irrigation_method, 
-      water_usage, irrigation_schedule, cost 
+      water_usage,  cost 
     } = req.body;
 
     // Check if session exists and is active
@@ -146,7 +139,6 @@ exports.addIrrigationUpload = async (req, res) => {
       water_source,
       irrigation_method,
       water_usage,
-      irrigation_schedule,
       cost,
       irrigation_date: req.body.irrigation_date || new Date()
     });
@@ -207,90 +199,6 @@ exports.addLaborUpload = async (req, res) => {
   }
 };
 
-// Add machinery upload
-exports.addMachineryUpload = async (req, res) => {
-  try {
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { 
-      session_id, machinery_used, usage_frequency
-    } = req.body;
-
-    // Check if session exists and is active
-    const session = await checkSession(session_id, req.userId);
-    if (!session) {
-      logger.warn(`Unauthorized access to session: ${session_id} by user ${req.userId}`);
-      return res.status(404).json({ 
-        message: 'Active session not found or you do not have permission' 
-      });
-    }
-
-    // Create machinery upload
-    const upload = await MachineryUpload.create({
-      session_id,
-      machinery_used,
-      usage_frequency,
-      machinery_date: req.body.machinery_date || new Date()
-    });
-
-    logger.info(`Machinery upload added for session: ${session_id} by user ${req.userId}`);
-    res.status(201).json({
-      message: 'Machinery usage recorded successfully',
-      upload
-    });
-    
-  } catch (error) {
-    console.error('Add machinery upload error:', error);
-    logger.error(`Error adding machinery upload: ${error.message}`);
-    res.status(500).json({ message: 'Server error recording machinery usage' });
-  }
-};
-
-// Add disease upload
-exports.addDiseaseUpload = async (req, res) => {
-  try {
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { 
-      session_id, disease_observed 
-    } = req.body;
-
-    // Check if session exists and is active
-    const session = await checkSession(session_id, req.userId);
-    if (!session) {
-      logger.warn(`Unauthorized access to session: ${session_id} by user ${req.userId}`);
-      return res.status(404).json({ 
-        message: 'Active session not found or you do not have permission' 
-      });
-    }
-
-    // Create disease upload
-    const upload = await DiseaseUpload.create({
-      session_id,
-      disease_observed,
-      disease_date: req.body.disease_date || new Date()
-    });
-
-    logger.info(`Disease upload added for session: ${session_id} by user ${req.userId}`);
-    res.status(201).json({
-      message: 'Disease observation recorded successfully',
-      upload
-    });
-    
-  } catch (error) {
-    console.error('Add disease upload error:', error);
-    logger.error(`Error adding disease upload: ${error.message}`);
-    res.status(500).json({ message: 'Server error recording disease observation' });
-  }
-};
 
 // Get all uploads for a session
 exports.getSessionUploads = async (req, res) => {
@@ -332,15 +240,7 @@ exports.getSessionUploads = async (req, res) => {
       order: [['labor_date', 'DESC']]
     });
     
-    const machineries = await MachineryUpload.findAll({
-      where: { session_id: sessionId },
-      order: [['machinery_date', 'DESC']]
-    });
     
-    const diseases = await DiseaseUpload.findAll({
-      where: { session_id: sessionId },
-      order: [['disease_date', 'DESC']]
-    });
     
     res.status(200).json({
       session,
@@ -348,9 +248,7 @@ exports.getSessionUploads = async (req, res) => {
         fertilizers,
         pesticides,
         irrigations,
-        labors,
-        machineries,
-        diseases
+        labors
       }
     });
     

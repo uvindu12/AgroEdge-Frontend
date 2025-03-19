@@ -20,21 +20,13 @@ const FertilizerUpload = sequelize.define('FertilizerUpload', {
     type: DataTypes.STRING(50),
     allowNull: false
   },
-  fertilizer_brand: {
-    type: DataTypes.STRING(50),
+  application_method: {
+    type: DataTypes.STRING(100),
     allowNull: true
   },
   quantity: {
     type: DataTypes.FLOAT,
     allowNull: false
-  },
-  npk_ratio: {
-    type: DataTypes.STRING(20),
-    allowNull: true
-  },
-  application_method: {
-    type: DataTypes.STRING(100),
-    allowNull: true
   },
   cost: {
     type: DataTypes.FLOAT,
