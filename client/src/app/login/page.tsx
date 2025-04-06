@@ -1,93 +1,108 @@
-"use client"
+// login/page.tsx
+"use client";
 
 import type React from "react";
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { EyeIcon, EyeOffIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
-
-
+import api from "@/lib/api";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
-    email: "",
+    username: "", // Changed to username to match backend
     password: "",
-  })
-  const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string>>({})
-  const router = useRouter()
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const router = useRouter();
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {}
+    const newErrors: Record<string, string> = {};
 
-    if (!formData.email) {
-      newErrors.email = "Email is required"
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address"
+    if (!formData.username) {
+      newErrors.username = "Username is required";
     }
 
     if (!formData.password) {
-      newErrors.password = "Password is required"
+      newErrors.password = "Password is required";
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!validateForm()) return
+    if (!validateForm()) return;
 
-    setLoading(true)
+    setLoading(true);
     try {
-      // Here you would typically make an API call to authenticate the user
-      await new Promise((resolve) => setTimeout(resolve, 1500)) // Simulated API call
-      router.push("/dashboard")
-    } catch (error) {
-      console.error("Login error:", error)
+      // Make API call to login
+      const response = await api.post("/auth/login", {
+        username: formData.username,
+        password: formData.password,
+      });
+
+      // Store the token in localStorage
+      localStorage.setItem("token", response.data.token);
+
+      // Redirect to the activities page
+      router.push("/dashboard");
+    } catch (error: any) {
+      console.error("Login error:", error);
+      setErrors({ form: error.response?.data?.message || "Invalid username or password" });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
-  
+  };
 
   return (
     <div className="min-h-screen flex bg-gray-50">
       {/* Left side - Form */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-lg space-y-10 ">
+        <div className="w-full max-w-lg space-y-10">
           {/* Logo */}
           <div className="flex justify-center">
             <div className="flex items-center space-x-2">
-              <span className="text-3xl font-semibold">Welcome Back to <span className= "text-green-400">AgroEdge</span></span>
+              <span className="text-3xl font-semibold">
+                Welcome Back to <span className="text-green-400">AgroEdge</span>
+              </span>
             </div>
           </div>
 
           <div>
-            <p className="mt-2 text-sm text-gray-600 text-center">Log in to access your personalized farming insights and tools.</p>
+            <p className="mt-2 text-sm text-gray-600 text-center">
+              Log in to access your personalized farming insights and tools.
+            </p>
           </div>
+
+          {errors.form && (
+            <div className="p-3 bg-red-50 text-red-800 rounded-md">
+              {errors.form}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div className="space-y-4">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-green-700">
-                  Email
+                <label htmlFor="username" className="block text-sm font-medium text-green-700">
+                  Username
                 </label>
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className={cn("mt-1 block w-full rounded-md border-green-300", errors.email && "border-red-500")}
+                  id="username"
+                  type="text"
+                  placeholder="Enter your username"
+                  value={formData.username}
+                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                  className={cn("mt-1 block w-full rounded-md border-green-300", errors.username && "border-red-500")}
                 />
-                {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
+                {errors.username && <p className="mt-1 text-sm text-red-500">{errors.username}</p>}
               </div>
 
               <div>
@@ -137,7 +152,7 @@ export default function LoginPage() {
               className="w-full bg-green-600 hover:bg-green-300 text-white font-medium py-2 px-4 rounded-md"
               disabled={loading}
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </Button>
 
             <div className="relative">
@@ -154,34 +169,38 @@ export default function LoginPage() {
                 type="button"
                 className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
               >
-                <img className="h-5 w-5 mr-2" src="/google.svg" alt="Google logo" />
+                <img className="h-5 w-5 mr-2" src="/images/google.png" alt="Google logo" />
                 <span>Sign up with Google</span>
               </button>
               <button
                 type="button"
                 className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
               >
-                <img className="h-5 w-5 mr-2" src="/facebook.svg" alt="Facebook logo" />
+                <img className="h-5 w-5 mr-2" src="/images/facebook.png" alt="Facebook logo" />
                 <span>Sign up with Facebook</span>
               </button>
             </div>
 
             <p className="text-center text-sm text-gray-600">
               Don't have an account?{" "}
-              <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500">
+              <Link href="/signup" className="font-medium text-green-600 hover:text-green-500">
                 Sign up
               </Link>
             </p>
           </form>
         </div>
       </div>
-      <div className ="hidden lg:flex lg:w-1/2 bg-green-50 ">
+      <div className="hidden lg:flex lg:w-1/2 bg-green-50">
         <div className="flex flex-col justify-center px-12 text-white">
-          <div className="flex flex-col justify-center px-12 py-6 h-full">
-            <img src="/images/farmerlg.jpeg" alt="Login"  className="rounded-3xl max-w-lg max-h-screen shadow-2xl shadow-black" />
+          <div className="flex flex-col justify-center px-12 py-10 h-full">
+            <img
+              src="/images/login.jpg"
+              alt="Login"
+              className="rounded-3xl max-h-screen shadow-2xl shadow-black"
+            />
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

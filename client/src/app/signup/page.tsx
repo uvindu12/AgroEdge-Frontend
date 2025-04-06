@@ -1,19 +1,19 @@
-"use client"
+// signup/page.tsx
+"use client";
 
-import type React from "react"
-
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-
-import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Card } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-
+import type React from "react";
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import api from "@/lib/api";
+import { toast } from "sonner";
 
 // Sri Lankan districts
 const DISTRICTS = [
@@ -42,77 +42,81 @@ const DISTRICTS = [
   "Ratnapura",
   "Trincomalee",
   "Vavuniya",
-]
+];
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
-    fullName: "",
+    username: "", // Changed from fullName to username to match backend
     email: "",
     password: "",
     confirmPassword: "",
     district: "",
-    farmSize: "",
-    farmingExperience: "",
-  })
-  const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string>>({})
-  const router = useRouter()
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const router = useRouter();
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {}
+    const newErrors: Record<string, string> = {};
 
-    if (!formData.fullName) {
-      newErrors.fullName = "Full name is required"
+    if (!formData.username) {
+      newErrors.username = "Username is required";
     }
 
     if (!formData.email) {
-      newErrors.email = "Email is required"
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address"
+      newErrors.email = "Please enter a valid email address";
     }
 
     if (!formData.password) {
-      newErrors.password = "Password is required"
-    } else if (formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters"
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) { // Match backend's minimum length
+      newErrors.password = "Password must be at least 6 characters";
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match"
+      newErrors.confirmPassword = "Passwords do not match";
     }
 
     if (!formData.district) {
-      newErrors.district = "Please select your district"
+      newErrors.district = "Please select your district";
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!validateForm()) return
+    if (!validateForm()) return;
 
-    setLoading(true)
+    setLoading(true);
     try {
-      // In a real application, this would be an API call to register the user
-      // The backend would:
-      // 1. Create the farmer record in the database
-      // 2. Query for most grown and most profitable crops in the district
-      // 3. Return this data along with the authentication token
+      // Make API call to register the user
+      const response = await api.post("/auth/register", {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      });
 
-      await new Promise((resolve) => setTimeout(resolve, 1500)) // Simulating API call
+      // Store the token in localStorage
+      localStorage.setItem("token", response.data.token);
 
-      // After successful registration, redirect to the dashboard
-      router.push("/new-farmer")
-    } catch (error) {
-      console.error("Registration error:", error)
+      toast.success("Registraion successful" ,{
+        description: "Welcome to AgroEdge!",
+      });
+      // Redirect to the activities page
+      router.push("/new-farmer");
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      setErrors({ toast: error.response?.data?.message || "Failed to create account. Please try again." });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -171,18 +175,24 @@ export default function SignUpPage() {
               <p className="text-sm text-gray-600 mt-2">Join our community of successful farmers</p>
             </div>
 
+            {errors.form && (
+              <div className="p-3 bg-red-50 text-red-800 rounded-md">
+                {errors.form}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="fullName">Full Name</Label>
+                <Label htmlFor="username">Username</Label>
                 <Input
-                  id="fullName"
-                  name="fullName"
-                  placeholder="Enter your full name"
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  className={cn(errors.fullName && "border-red-500")}
+                  id="username"
+                  name="username"
+                  placeholder="Enter your username"
+                  value={formData.username}
+                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                  className={cn(errors.username && "border-red-500")}
                 />
-                {errors.fullName && <p className="text-sm text-red-500">{errors.fullName}</p>}
+                {errors.username && <p className="text-sm text-red-500">{errors.username}</p>}
               </div>
 
               <div className="space-y-2">
@@ -196,50 +206,6 @@ export default function SignUpPage() {
                   className={cn(errors.email && "border-red-500")}
                 />
                 {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="district">District</Label>
-                <Select
-                  onValueChange={(value: string) => setFormData({ ...formData, district: value })}
-                  value={formData.district}
-                >
-                  <SelectTrigger className={cn(errors.district && "border-red-500")}>
-                    <SelectValue placeholder="Select your district" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {DISTRICTS.map((district) => (
-                      <SelectItem key={district} value={district}>
-                        {district}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {errors.district && <p className="text-sm text-red-500">{errors.district}</p>}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="farmSize">Farm Size (acres)</Label>
-                <Input
-                  id="farmSize"
-                  type="number"
-                  placeholder="Enter your farm size"
-                  value={formData.farmSize}
-                  onChange={(e) => setFormData({ ...formData, farmSize: e.target.value })}
-                />
-                <p className="text-xs text-gray-500">Optional</p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="farmingExperience">Farming Experience (years)</Label>
-                <Input
-                  id="farmingExperience"
-                  type="number"
-                  placeholder="Years of farming experience"
-                  value={formData.farmingExperience}
-                  onChange={(e) => setFormData({ ...formData, farmingExperience: e.target.value })}
-                />
-                <p className="text-xs text-gray-500">Optional</p>
               </div>
 
               <div className="space-y-2">
@@ -262,7 +228,7 @@ export default function SignUpPage() {
                   </button>
                 </div>
                 {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
-                <p className="text-xs text-gray-500">Password must be at least 8 characters long.</p>
+                <p className="text-xs text-gray-500">Password must be at least 6 characters long.</p>
               </div>
 
               <div className="space-y-2">
@@ -276,6 +242,23 @@ export default function SignUpPage() {
                   className={cn(errors.confirmPassword && "border-red-500")}
                 />
                 {errors.confirmPassword && <p className="text-sm text-red-500">{errors.confirmPassword}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="district">District</Label>
+                <Select onValueChange={(value) => setFormData({ ...formData, district: value })}>
+                  <SelectTrigger className={cn(errors.district && "border-red-500")}>
+                    <SelectValue placeholder="Select your district" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {DISTRICTS.map((district) => (
+                      <SelectItem key={district} value={district}>
+                        {district}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.district && <p className="text-sm text-red-500">{errors.district}</p>}
               </div>
 
               <Button type="submit" className="w-full bg-green-600 hover:bg-green-700" disabled={loading}>
@@ -315,6 +298,5 @@ export default function SignUpPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
-

@@ -79,11 +79,11 @@ export default function DashboardPage() {
     <div className= "min-h-screen bg-gray-50">
       <div className="relative h-[400px] overflow-hidden">
         <img
-          src="/images/dashboard.jpg"
+          src="/images/dashboard.png"
           alt="Farmers shaking hands in field at sunset"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-black/70">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30">
           <div className="container mx-auto px-4 h-full flex flex-col justify-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Welcome to <span className= "text-green-600">Agro</span><span className= "text-green-400">Edge</span></h1>
             <p className="text-xl text-gray-200 max-w-2xl">

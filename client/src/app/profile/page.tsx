@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState, useEffect } from "react";
 import {
   MapPin,
   Phone,
@@ -11,106 +11,165 @@ import {
   Leaf,
   BarChart2,
   Settings,
-  Camera,
   ChevronRight,
   Award,
   TrendingUp,
   Clock,
   Droplet,
-} from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
+} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
+import { Router, useRouter } from "next/router";
+import Link from "next/link";
 
-
-
-
-// Mock data for the farmer profile
-const farmerData = {
+// Define TypeScript interface for the farmer profile data
+interface FarmerProfile {
   personal: {
-    name: "Rajith Kumara",
-    avatar:
-      "",
-    location: "Anuradhapura, Sri Lanka",
-    phone: "+94 71 234 5678",
-    email: "rajith.kumara@example.com",
-    memberSince: "March 2021",
-    bio: "Third-generation rice farmer with 15 years of experience. Specializing in sustainable farming practices and organic rice varieties.",
-  },
+    name: string;
+    avatar: string;
+    location: string;
+    phone: string;
+    email: string;
+    memberSince: string;
+    bio: string;
+  };
   farm: {
-    name: "Green Valley Farm",
-    size: "12 acres",
-    soilType: "Loamy",
-    waterSource: "Irrigation Canal",
-    mainCrops: ["Rice", "Vegetables", "Fruits"],
-    certifications: ["Organic Certified", "Good Agricultural Practices"],
-    equipment: ["Tractor", "Water Pump", "Harvester"],
-  },
-  crops: [
-    { name: "Rice", area: "8 acres", yield: "5.2 tons/acre", season: "Maha", profit: "High" },
-    { name: "Vegetables", area: "3 acres", yield: "Varied", season: "Year-round", profit: "Medium" },
-    { name: "Fruits", area: "1 acre", yield: "Varied", season: "Year-round", profit: "Medium" },
-  ],
+    name: string;
+    size: string;
+    soilType: string;
+    waterSource: string;
+    mainCrops: string[];
+    certifications: string[];
+    equipment: string[];
+  };
+  crops: {
+    name: string;
+    area: string;
+    yield: string;
+    season: string;
+    profit: string;
+  }[];
   statistics: {
-    totalHarvests: 42,
-    averageYield: "4.8 tons/acre",
-    profitMargin: "32%",
-    waterUsage: "Efficient",
-    sustainability: "85%",
-  },
-  achievements: [
-    { title: "Top Rice Producer 2022", date: "December 2022" },
-    { title: "Sustainable Farming Award", date: "June 2023" },
-    { title: "Community Leader", date: "January 2023" },
-  ],
-  recentActivity: [
-    { action: "Updated crop data", date: "2 days ago" },
-    { action: "Added new harvest record", date: "1 week ago" },
-    { action: "Completed soil analysis", date: "2 weeks ago" },
-  ],
-}
-
-// Chart component (simplified for this example)
-const SimpleBarChart = () => {
-  return (
-    <div className="w-full h-48 mt-4">
-      <div className="flex h-full items-end gap-2">
-        {[65, 40, 85, 55, 75, 90, 50, 80, 60, 70, 45, 95].map((value, index) => (
-          <div key={index} className="relative flex-1 group">
-            <div
-              className="absolute bottom-0 w-full bg-green-500 rounded-t-sm transition-all duration-300 group-hover:bg-green-600"
-              style={{ height: `${value}%` }}
-            ></div>
-            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-green-700 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-              {value}%
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="flex justify-between mt-2 text-xs text-gray-500">
-        <span>Jan</span>
-        <span>Feb</span>
-        <span>Mar</span>
-        <span>Apr</span>
-        <span>May</span>
-        <span>Jun</span>
-        <span>Jul</span>
-        <span>Aug</span>
-        <span>Sep</span>
-        <span>Oct</span>
-        <span>Nov</span>
-        <span>Dec</span>
-      </div>
-    </div>
-  )
+    totalHarvests: number;
+    averageYield: string;
+    profitMargin: string;
+    waterUsage: string;
+    sustainability: string;
+  };
+  achievements: { title: string; date: string }[];
+  recentActivity: { action: string; date: string }[];
 }
 
 export default function FarmerProfilePage() {
-  const [activeTab, setActiveTab] = useState("overview")
+  const [activeTab, setActiveTab] = useState("overview");
+  const [profile, setProfile] = useState<FarmerProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Hardcoded userId for now; replace with dynamic value after authentication
+  const userId = "005a8061c6";
+
+  // useEffect(() => {
+  //   const fetchProfile = async () => {
+  //     try {
+  //       setLoading(true);
+  //       setError(null);
+  //       const response = await fetch(`http://localhost:5002/api/profile/${userId}`);
+  //       if (!response.ok) {
+  //         throw new Error((await response.json()).error || "Failed to fetch profile");
+  //       }
+  //       const data: FarmerProfile = await response.json();
+  //       setProfile(data);
+  //     } catch (err: any) {
+  //       setError(err.message);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchProfile();
+  // }, [userId]);
+
+  
+
+  // Fetch profile data using the dynamic userId with fetch
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!userId) return;
+
+      try {
+        setLoading(true);
+        const token = localStorage.getItem("token");
+        const response = await fetch(`http://localhost:5002/api/profile/${userId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to fetch profile");
+        }
+
+        const data: FarmerProfile = await response.json();
+        setProfile(data);
+        toast.success("Profile loaded successfully!");
+      } catch (err: any) {
+        console.error("Error fetching profile:", err);
+        toast.error(err.message || "Failed to fetch profile");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [userId]);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <p className="text-center text-gray-600">Loading...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <p className="text-center text-red-600">Error: {error}</p>
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <p className="text-center text-gray-600">No profile data available.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -118,38 +177,45 @@ export default function FarmerProfilePage() {
       <div className="flex flex-col md:flex-row gap-6 mb-8">
         <div className="relative group">
           <Avatar className="h-24 w-24 border-4 border-green-300 shadow-md">
-            <AvatarImage src={farmerData.personal.avatar} alt={farmerData.personal.name} />
-            <AvatarFallback>{farmerData.personal.name.charAt(0)}</AvatarFallback>
+            <AvatarImage src={profile.personal.avatar} alt={profile.personal.name} />
+            <AvatarFallback>{profile.personal.name.charAt(0)}</AvatarFallback>
           </Avatar>
-          
         </div>
 
         <div className="flex-1">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
             <div>
-              <h1 className="text-3xl font-bold">{farmerData.personal.name}</h1>
+              <h1 className="text-3xl font-bold">{profile.personal.name}</h1>
               <div className="flex items-center text-green-700 mt-1">
                 <MapPin className="h-4 w-4 mr-1" />
-                <span>{farmerData.personal.location}</span>
+                <span>{profile.personal.location}</span>
               </div>
               <div className="flex flex-wrap gap-2 mt-2">
-                {farmerData.farm.certifications.map((cert, index) => (
-                  <Badge key={index} variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                {profile.farm.certifications.map((cert, index) => (
+                  <Badge
+                    key={index}
+                    variant="outline"
+                    className="bg-green-50 text-green-700 border-green-200"
+                  >
                     {cert}
                   </Badge>
                 ))}
               </div>
             </div>
             <div className="flex gap-2 mt-4 md:mt-0">
-              <Button className="flex items-center gap-2">
-                <Edit className="h-4 w-4" />
-                Edit Profile
-              </Button>
+              <Link href="/farmer-report">
+                <Button className="flex items-center gap-2 bg-green-500 hover:bg-green-300 hover:font-bold hover:text-green-800">
+                  <Edit className="h-4 w-4 bg-green-400 hover:bg-green-500 hover:font-bold hover:text-green-800" />
+                  View Report
+                </Button>
+              </Link>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button>
-                    <Settings className="h-5 w-5" />
-                  </Button>
+                 
+                    <Button  className= "bg-green-600 hover:bg-green-300 hover:font-bold hover:text-green-800">
+                      <Settings className="h-5 w-5 " />
+                    </Button>
+                  
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Profile Settings</DropdownMenuLabel>
@@ -171,7 +237,7 @@ export default function FarmerProfilePage() {
               </div>
               <div>
                 <p className="text-sm text-gray-500">Phone</p>
-                <p className="font-medium">{farmerData.personal.phone}</p>
+                <p className="font-medium">{profile.personal.phone}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -180,7 +246,7 @@ export default function FarmerProfilePage() {
               </div>
               <div>
                 <p className="text-sm text-gray-500">Email</p>
-                <p className="font-medium">{farmerData.personal.email}</p>
+                <p className="font-medium">{profile.personal.email}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -189,7 +255,7 @@ export default function FarmerProfilePage() {
               </div>
               <div>
                 <p className="text-sm text-gray-500">Member Since</p>
-                <p className="font-medium">{farmerData.personal.memberSince}</p>
+                <p className="font-medium">{profile.personal.memberSince}</p>
               </div>
             </div>
           </div>
@@ -210,47 +276,53 @@ export default function FarmerProfilePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Bio Card */}
             <Card className="md:col-span-2">
-              <CardHeader className="">
+              <CardHeader>
                 <CardTitle>About</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-700">{farmerData.personal.bio}</p>
+                <p className="text-gray-700">{profile.personal.bio}</p>
               </CardContent>
             </Card>
 
             {/* Statistics Card */}
             <Card>
-              <CardHeader className="">
+              <CardHeader>
                 <CardTitle>Statistics</CardTitle>
               </CardHeader>
               <CardContent>
                 <div>
                   <div className="flex justify-between mb-1">
                     <span className="text-sm text-gray-600">Total Harvests</span>
-                    <span className="text-sm font-medium">{farmerData.statistics.totalHarvests}</span>
+                    <span className="text-sm font-medium">{profile.statistics.totalHarvests}</span>
                   </div>
-                  <Progress value={70} className="h-2 bg-green-200" />
+                  <Progress value={(profile.statistics.totalHarvests / 50) * 100} className="h-2 bg-green-200" />
                 </div>
                 <div>
                   <div className="flex justify-between mb-1">
                     <span className="text-sm text-gray-600 mt-5">Average Yield</span>
-                    <span className="text-sm font-medium">{farmerData.statistics.averageYield}</span>
+                    <span className="text-sm font-medium">{profile.statistics.averageYield}</span>
                   </div>
-                  <Progress value={85}  className="h-2 bg-green-200 " />
+                  <Progress value={85} className="h-2 bg-green-200" />
                 </div>
                 <div>
                   <div className="flex justify-between mb-1">
                     <span className="text-sm text-gray-600 mt-5">Profit Margin</span>
-                    <span className="text-sm font-medium">{farmerData.statistics.profitMargin}</span>
+                    <span className="text-sm font-medium">{profile.statistics.profitMargin}</span>
                   </div>
-                  <Progress value={65} className="h-2 bg-green-200"/>
+                  <Progress
+                    value={parseFloat(profile.statistics.profitMargin)}
+                    className="h-2 bg-green-200"
+                  />
                 </div>
                 <div>
                   <div className="flex justify-between mb-1">
                     <span className="text-sm text-gray-600 mt-5">Sustainability</span>
-                    <span className="text-sm font-medium">{farmerData.statistics.sustainability}</span>
+                    <span className="text-sm font-medium">{profile.statistics.sustainability}</span>
                   </div>
-                  <Progress value={85} className="h-2 bg-green-200" />
+                  <Progress
+                    value={parseFloat(profile.statistics.sustainability)}
+                    className="h-2 bg-green-200"
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -259,12 +331,12 @@ export default function FarmerProfilePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Achievements Card */}
             <Card>
-              <CardHeader className="">
+              <CardHeader>
                 <CardTitle>Achievements</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {farmerData.achievements.map((achievement, index) => (
+                  {profile.achievements.map((achievement, index) => (
                     <div key={index} className="flex items-start gap-3">
                       <div className="bg-amber-100 p-2 rounded-full mt-1">
                         <Award className="h-4 w-4 text-amber-600" />
@@ -278,7 +350,7 @@ export default function FarmerProfilePage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button  className="w-full bg-green-400  hover:bg-green-300 hover:font-bold hover:text-green-800">
+                <Button className="w-full bg-green-500 hover:bg-green-300 hover:font-bold hover:text-green-800">
                   View All Achievements
                 </Button>
               </CardFooter>
@@ -286,12 +358,12 @@ export default function FarmerProfilePage() {
 
             {/* Recent Activity Card */}
             <Card>
-              <CardHeader className= "">
+              <CardHeader>
                 <CardTitle>Recent Activity</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {farmerData.recentActivity.map((activity, index) => (
+                  {profile.recentActivity.map((activity, index) => (
                     <div key={index} className="flex items-start gap-3">
                       <div className="bg-blue-100 p-2 rounded-full mt-1">
                         <Clock className="h-4 w-4 text-blue-600" />
@@ -305,7 +377,7 @@ export default function FarmerProfilePage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button  className="w-full bg-green-400  hover:bg-green-300 hover:font-bold hover:text-green-800">
+                <Button className="w-full bg-green-500 hover:bg-green-300 hover:font-bold hover:text-green-800">
                   View All Activity
                 </Button>
               </CardFooter>
@@ -318,7 +390,7 @@ export default function FarmerProfilePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Farm Info Card */}
             <Card className="md:col-span-2">
-              <CardHeader className= "">
+              <CardHeader>
                 <CardTitle>Farm Information</CardTitle>
               </CardHeader>
               <CardContent>
@@ -326,26 +398,26 @@ export default function FarmerProfilePage() {
                   <div className="space-y-4">
                     <div>
                       <h3 className="text-sm font-medium text-gray-500">Farm Name</h3>
-                      <p className="mt-1">{farmerData.farm.name}</p>
+                      <p className="mt-1">{profile.farm.name}</p>
                     </div>
                     <div>
                       <h3 className="text-sm font-medium text-gray-500">Farm Size</h3>
-                      <p className="mt-1">{farmerData.farm.size}</p>
+                      <p className="mt-1">{profile.farm.size}</p>
                     </div>
                     <div>
                       <h3 className="text-sm font-medium text-gray-500">Soil Type</h3>
-                      <p className="mt-1">{farmerData.farm.soilType}</p>
+                      <p className="mt-1">{profile.farm.soilType}</p>
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
                       <h3 className="text-sm font-medium text-gray-500">Water Source</h3>
-                      <p className="mt-1">{farmerData.farm.waterSource}</p>
+                      <p className="mt-1">{profile.farm.waterSource}</p>
                     </div>
                     <div>
                       <h3 className="text-sm font-medium text-gray-500">Main Crops</h3>
                       <div className="flex flex-wrap gap-2 mt-1">
-                        {farmerData.farm.mainCrops.map((crop, index) => (
+                        {profile.farm.mainCrops.map((crop, index) => (
                           <Badge key={index} variant="secondary">
                             {crop}
                           </Badge>
@@ -355,8 +427,12 @@ export default function FarmerProfilePage() {
                     <div>
                       <h3 className="text-sm font-medium text-gray-500">Certifications</h3>
                       <div className="flex flex-wrap gap-2 mt-1">
-                        {farmerData.farm.certifications.map((cert, index) => (
-                          <Badge key={index} variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                        {profile.farm.certifications.map((cert, index) => (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="bg-green-50 text-green-700 border-green-200"
+                          >
                             {cert}
                           </Badge>
                         ))}
@@ -369,12 +445,12 @@ export default function FarmerProfilePage() {
 
             {/* Equipment Card */}
             <Card>
-              <CardHeader className= "">
+              <CardHeader>
                 <CardTitle>Equipment</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {farmerData.farm.equipment.map((equipment, index) => (
+                  {profile.farm.equipment.map((equipment, index) => (
                     <div key={index} className="flex items-center gap-3">
                       <div className="bg-slate-100 p-2 rounded-full">
                         <Tractor className="h-4 w-4 text-slate-600" />
@@ -385,7 +461,7 @@ export default function FarmerProfilePage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button  className="w-full bg-green-400  hover:bg-green-300 hover:font-bold hover:text-green-800">
+                <Button className="w-full bg-green-400 hover:bg-green-300 hover:font-bold hover:text-green-800">
                   Add Equipment
                 </Button>
               </CardFooter>
@@ -394,7 +470,7 @@ export default function FarmerProfilePage() {
 
           {/* Farm Map Placeholder */}
           <Card>
-            <CardHeader className = "">
+            <CardHeader>
               <CardTitle>Farm Location</CardTitle>
             </CardHeader>
             <CardContent>
@@ -409,7 +485,7 @@ export default function FarmerProfilePage() {
         <TabsContent value="crops" className="space-y-6">
           {/* Current Crops */}
           <Card>
-            <CardHeader className = "">
+            <CardHeader>
               <CardTitle>Current Crops</CardTitle>
               <CardDescription>Overview of crops currently being grown</CardDescription>
             </CardHeader>
@@ -427,7 +503,7 @@ export default function FarmerProfilePage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {farmerData.crops.map((crop, index) => (
+                    {profile.crops.map((crop, index) => (
                       <tr key={index} className="border-b hover:bg-green-50">
                         <td className="py-3 px-4">
                           <div className="flex items-center gap-2">
@@ -464,13 +540,15 @@ export default function FarmerProfilePage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full bg-green-400  hover:bg-green-300 hover:font-bold hover:text-green-800">Add New Crop</Button>
+              <Button className="w-full bg-green-400 hover:bg-green-300 hover:font-bold hover:text-green-800">
+                Add New Crop
+              </Button>
             </CardFooter>
           </Card>
 
           {/* Crop Recommendations */}
           <Card>
-            <CardHeader className = "">
+            <CardHeader>
               <CardTitle>Crop Recommendations</CardTitle>
               <CardDescription>Based on your location and farm conditions</CardDescription>
             </CardHeader>
@@ -544,26 +622,30 @@ export default function FarmerProfilePage() {
         <TabsContent value="analytics" className="space-y-6">
           {/* Yield Trends */}
           <Card>
-            <CardHeader className = "">
+            <CardHeader>
               <CardTitle>Yield Trends</CardTitle>
               <CardDescription>Monthly yield performance over the past year</CardDescription>
             </CardHeader>
             <CardContent>
-              <SimpleBarChart />
+              <div className="bg-gray-200 h-48 rounded-md flex items-center justify-center">
+                <p className="text-gray-500">Yield Trends Chart Placeholder</p>
+              </div>
             </CardContent>
           </Card>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Profit Analysis */}
             <Card className="md:col-span-2">
-              <CardHeader className = "">
+              <CardHeader>
                 <CardTitle>Profit Analysis</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-sm font-medium text-gray-500 mb-2">Revenue vs Expenses</h3>
-                    <div className="bg-gray-100 h-40 rounded-md"></div>
+                    <div className="bg-gray-100 h-40 rounded-md flex items-center justify-center">
+                      <p className="text-gray-500">Revenue vs Expenses Chart Placeholder</p>
+                    </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-green-50 p-4 rounded-lg">
@@ -589,17 +671,17 @@ export default function FarmerProfilePage() {
 
             {/* Resource Usage */}
             <Card>
-              <CardHeader className = "">
+              <CardHeader>
                 <CardTitle>Resource Usage</CardTitle>
               </CardHeader>
-              <CardContent >
+              <CardContent>
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <Droplet className="h-4 w-4 text-blue-600" />
                       <span className="text-sm font-medium">Water Usage</span>
                     </div>
-                    <span className="text-sm">Efficient</span>
+                    <span className="text-sm">{profile.statistics.waterUsage}</span>
                   </div>
                   <Progress value={65} className="h-2" />
                 </div>
@@ -639,6 +721,5 @@ export default function FarmerProfilePage() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
-

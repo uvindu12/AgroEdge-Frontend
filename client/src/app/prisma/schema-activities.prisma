@@ -1,0 +1,53 @@
+// Add these models to your existing Prisma schema
+
+model CropSession {
+  id                String      @id @default(uuid())
+  userId            String
+  farmSize          Float
+  farmType          String
+  village           String
+  district          String
+  cropType          String
+  variety           String
+  expectedHarvest   Float
+  seedType          String
+  seedVariety       String
+  seedSource        String
+  seedQuantity      Float
+  seedCost          Float
+  soilType          String
+  soilPh            String
+  startDate         DateTime    @default(now())
+  endDate           DateTime?
+  actualYield       Float?
+  sellingPrice      Float?
+  buyerType         String?
+  storageMethod     String?
+  status            String      @default("active")
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  // Relations
+  user              User        @relation(fields: [userId], references: [id])
+  inputs            Input[]
+  
+  @@index([userId])
+  @@index([status])
+}
+
+model Input {
+  id                String      @id @default(uuid())
+  sessionId         String
+  type              String      // fertilizer, pesticide, irrigation, labor, machinery, disease
+  date              DateTime    @default(now())
+  details           Json        // Store the specific details for each input type
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  // Relations
+  session           CropSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  
+  @@index([sessionId])
+  @@index([type])
+}
+
