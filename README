@@ -1,0 +1,79 @@
+# AgroEdge
+
+AgroEdge is a comprehensive platform designed to enhance agricultural productivity by leveraging modern technologies such as machine learning, community management, and crop recommendation systems.
+
+## Project Structure
+
+```
+AgroEdge/
+├── client/                  # Frontend application built with Next.js
+│   ├── public/              # Static assets
+│   ├── src/                 # Source code for the client
+│   ├── .next/               # Next.js build output
+│   └── package.json         # Client dependencies
+├── server/                  # Backend services
+│   ├── activity/            # Activity tracking module
+│   ├── community/           # Community management module
+│   ├── crop-recommendation-system/ # Crop recommendation logic
+│   ├── ML_backend/          # Machine learning backend
+│   ├── user-profile/        # User profile management
+│   └── package.json         # Server dependencies
+└── README.md                # Project documentation
+```
+
+## Features
+
+- **Crop Recommendation System**: Provides suggestions for optimal crops based on various factors.
+- **Community Management**: Facilitates collaboration among farmers and agricultural experts.
+- **Machine Learning Integration**: Enhances decision-making with predictive analytics.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or later)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/your-repo/agroedge.git
+   cd AgroEdge
+   ```
+
+2. Install dependencies for both client and server:
+
+   ```sh
+   cd client
+   npm install
+   cd ../server
+   npm install
+   ```
+
+### Running the Project
+
+1. Start the client:
+
+   ```sh
+   cd client
+   npm run dev
+   ```
+
+2. Start the server:
+
+   ```sh
+   cd server
+   npm start
+   ```
+
+3. Open your browser and navigate to `http://localhost:3000`.
+
+## Contributing
+
+Contributions are welcome! Please follow the [CONTRIBUTING.md](CONTRIBUTING.md) guidelines.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
